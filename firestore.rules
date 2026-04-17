@@ -1,0 +1,26 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow public read access to leaderboard and activity data
+    match /pledges/{pledge} {
+      allow read: if true;
+      allow write: if true; // In production, this should be restricted to authenticated admins
+    }
+    
+    match /donations/{donation} {
+      allow read: if true;
+      allow write: if true; // In production, this should be handled via cloud functions or restricted
+    }
+    
+    match /activities/{activity} {
+      allow read: if true;
+      allow write: if true;
+    }
+    
+    match /stats/{stat} {
+      allow read: if true;
+      allow write: if true;
+    }
+  }
+}

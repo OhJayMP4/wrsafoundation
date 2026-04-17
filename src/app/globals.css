@@ -1,0 +1,117 @@
+:root {
+  /* Premium Earthy Palette */
+  --background: #fbfaf7;
+  --foreground: #1c2e24;
+  
+  --primary: #1c2e24;
+  --primary-light: #2d4538;
+  --primary-foreground: #f4f1ea;
+  
+  --secondary: #5d4638;
+  --secondary-foreground: #f4f1ea;
+  
+  --accent: #c5a059;
+  --accent-light: #d4b882;
+  --accent-foreground: #1c2e24;
+  
+  /* Glassmorphism & Borders */
+  --glass: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.3);
+  --card-shadow: 0 8px 32px 0 rgba(28, 46, 36, 0.08);
+  
+  /* Layout */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --container-width: 1240px;
+  
+  /* Typography */
+  --font-heading: var(--font-outfit), sans-serif;
+  --font-body: var(--font-inter), sans-serif;
+}
+
+[data-theme='dark'] {
+  --background: #0d1410;
+  --foreground: #f4f1ea;
+  --primary: #1c2e24;
+  --glass: rgba(28, 46, 36, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-body);
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Glass Card Utility */
+.glass-card {
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--card-shadow);
+  border-radius: var(--radius-md);
+}
+
+/* Premium Button Utility */
+.btn-premium {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.btn-premium::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: currentColor;
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.3s ease;
+}
+
+.btn-premium:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.btn-accent {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}

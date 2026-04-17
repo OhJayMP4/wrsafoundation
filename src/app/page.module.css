@@ -1,0 +1,268 @@
+.main {
+  min-height: 100vh;
+  background-color: var(--background);
+}
+
+.hero {
+  position: relative;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  overflow: hidden;
+}
+
+.heroImageWrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.heroImage {
+  object-fit: cover;
+  filter: brightness(0.6) saturate(0.8);
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 0%, var(--background) 100%);
+}
+
+.heroContent {
+  position: relative;
+  z-index: 10;
+  max-width: 900px;
+  text-align: center;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1.25rem;
+  background: rgba(197, 160, 89, 0.2);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(197, 160, 89, 0.3);
+  border-radius: 9999px;
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+}
+
+.heroContent h1 {
+  font-size: clamp(3rem, 10vw, 5.5rem);
+  line-height: 0.95;
+  margin: 0;
+  color: #fff;
+}
+
+.heroContent p {
+  font-size: 1.25rem;
+  max-width: 600px;
+  opacity: 0.9;
+  font-family: var(--font-body);
+}
+
+.heroActions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.statsSection {
+  max-width: var(--container-width);
+  margin: -5rem auto 4rem;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 20;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 3rem;
+  text-align: center;
+}
+
+.statItem:not(:last-child) {
+  border-right: 1px solid rgba(0,0,0,0.05);
+}
+
+.statLabel {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  opacity: 0.6;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.statValue {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.content {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+}
+
+.card {
+  padding: 3.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.iconCircle {
+  width: 64px;
+  height: 64px;
+  background: rgba(197, 160, 89, 0.1);
+  color: var(--accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.textLink {
+  color: var(--accent);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+  font-size: 0.8125rem;
+  letter-spacing: 0.05em;
+  margin-top: 1rem;
+}
+
+.footer {
+  padding: 4rem;
+  text-align: center;
+  border-top: 1px solid rgba(0,0,0,0.05);
+}
+
+.challengeBoard {
+  max-width: var(--container-width);
+  margin: 4rem auto;
+  padding: 0 2rem;
+}
+
+.boardHeader {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.boardHeader h2 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.boardSubtitle {
+  opacity: 0.6;
+  font-size: 1.125rem;
+}
+
+.pledgeGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+.pledgeCard {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.cardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.pledgerInfo h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.pledgerInfo p {
+  font-size: 0.8125rem;
+  opacity: 0.5;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+}
+
+.urgencyBadge {
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  font-size: 0.625rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badgePending { background: #fef3c7; color: #92400e; }
+.badgeOverdue { background: #fee2e2; color: #991b1b; }
+.badgeBurning { 
+  background: linear-gradient(135deg, #ef4444, #f97316); 
+  color: white; 
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.cardMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(0,0,0,0.05);
+}
+
+.metaItem {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+}
+
+.metaLabel { opacity: 0.5; }
+.metaValue { font-weight: 700; color: var(--primary); }
+
+.burningEffect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #ef4444, #f97316, #ef4444);
+  background-size: 200% 100%;
+  animation: burningLine 2s linear infinite;
+}
+
+@keyframes burningLine {
+  0% { background-position: 100% 0%; }
+  100% { background-position: -100% 0%; }
+}
+
+@media (max-width: 768px) {
+  .pledgeGrid { grid-template-columns: 1fr; }
+}

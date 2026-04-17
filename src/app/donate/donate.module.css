@@ -1,0 +1,177 @@
+.container {
+  max-width: 900px;
+  margin: 6rem auto;
+  padding: 0 2rem;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--primary);
+  opacity: 0.6;
+  font-weight: 600;
+  font-size: 0.875rem;
+  margin-bottom: 2.5rem;
+  transition: opacity 0.2s;
+}
+
+.backLink:hover { opacity: 1; }
+
+.header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  margin-bottom: 1rem;
+}
+
+.formCard {
+  padding: 4rem;
+}
+
+.toggleContainer {
+  display: flex;
+  background: rgba(0,0,0,0.05);
+  padding: 0.5rem;
+  border-radius: 9999px;
+  margin-bottom: 3.5rem;
+}
+
+.toggleButton {
+  flex: 1;
+  padding: 1rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 0.875rem;
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.3s;
+}
+
+.toggleButtonActive {
+  background: white;
+  color: var(--primary);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stepNumber {
+  background: var(--accent);
+  color: var(--accent-foreground);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.label {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.875rem;
+  color: var(--primary);
+}
+
+.amountGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.amountButton {
+  padding: 1.5rem;
+  border: 1px solid var(--glass-border);
+  background: white;
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+  font-size: 1.5rem;
+  font-weight: 800;
+  font-family: var(--font-heading);
+  transition: all 0.2s;
+}
+
+.amountButton:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+}
+
+.amountButtonActive {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.customInputWrapper {
+  position: relative;
+  grid-column: span 2;
+}
+
+.currencyPrefix {
+  position: absolute;
+  left: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-weight: 800;
+  opacity: 0.4;
+}
+
+.customInput {
+  width: 100%;
+  padding: 1.5rem 1.5rem 1.5rem 3rem;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.innerForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.inputField {
+  width: 100%;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  background: white;
+  font-family: var(--font-body);
+  font-size: 1rem;
+}
+
+.inputField:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.securityNote {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 2rem;
+  font-size: 0.75rem;
+  opacity: 0.5;
+}
+
+@media (max-width: 600px) {
+  .amountGrid { grid-template-columns: 1fr; }
+  .customInputWrapper { grid-column: span 1; }
+  .formCard { padding: 2rem; }
+}
