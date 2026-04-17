@@ -2,19 +2,47 @@
 
 import { useState } from "react";
 import styles from "../admin.module.css";
-import { Plus, Search, Filter, MoreHorizontal, Clock, X } from "lucide-react";
-import { useApp } from "@/context/AppContext";
+import { Plus, Search, Filter, Pencil, Trash2, Clock, X } from "lucide-react";
+import { useApp, Pledge } from "@/context/AppContext";
 
 export default function PledgesPage() {
-  const { pledges, addPledge } = useApp();
+  const { pledges, addPledge, editPledge, deletePledge } = useApp();
+  
+  // Add modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newPledgeData, setNewPledgeData] = useState({ fullName: "", organization: "", amount: 36000 });
+
+  // Edit modal state
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingPledgeId, setEditingPledgeId] = useState<string | null>(null);
+  const [editPledgeData, setEditPledgeData] = useState<Partial<Pledge>>({});
 
   const handleAddPledge = (e: React.FormEvent) => {
     e.preventDefault();
     addPledge({ ...newPledgeData, challengedBy: "Admin Portal" });
     setIsModalOpen(false);
     setNewPledgeData({ fullName: "", organization: "", amount: 36000 });
+  };
+
+  const handleEditClick = (pledge: Pledge) => {
+    setEditingPledgeId(pledge.id);
+    setEditPledgeData(pledge);
+    setIsEditModalOpen(true);
+  };
+
+  const handleEditSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (editingPledgeId) {
+      await editPledge(editingPledgeId, editPledgeData);
+      setIsEditModalOpen(false);
+      setEditingPledgeId(null);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (confirm("Are you sure you want to delete this pledge permanently?")) {
+      await deletePledge(id);
+    }
   };
 
   return (
@@ -101,7 +129,14 @@ export default function PledgesPage() {
                     </span>
                   </td>
                   <td style={{ paddingRight: '2rem', textAlign: 'right' }}>
-                    <button style={{ opacity: 0.3 }}><MoreHorizontal size={18} /></button>
+                    <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
+                      <button onClick={() => handleEditClick(p)} style={{ opacity: 0.5, padding: '0.25rem' }} title="Edit">
+                        <Pencil size={18} />
+                      </button>
+                      <button onClick={() => handleDelete(p.id)} style={{ opacity: 0.5, color: '#dc2626', padding: '0.25rem' }} title="Delete">
+                        <Trash2 size={18} />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               );
@@ -144,6 +179,55 @@ export default function PledgesPage() {
               />
               <button type="submit" className="btn-premium btn-primary" style={{ width: '100%', marginTop: '1rem' }}>
                 Initiate Pledge Link
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Modal */}
+      {isEditModalOpen && (
+        <div className={styles.modalOverlay}>
+          <div className={`${styles.modalContent} glass-card`}>
+            <div className={styles.cardHeader}>
+              <h3>Edit Pledge</h3>
+              <button onClick={() => setIsEditModalOpen(false)}><X size={20} /></button>
+            </div>
+            <form onSubmit={handleEditSubmit}>
+              <label className={styles.label}>Full Name</label>
+              <input 
+                type="text" 
+                required 
+                className={styles.inputField}
+                value={editPledgeData.fullName || ""}
+                onChange={(e) => setEditPledgeData({...editPledgeData, fullName: e.target.value})}
+              />
+              <label className={styles.label}>Organization</label>
+              <input 
+                type="text" 
+                required 
+                className={styles.inputField}
+                value={editPledgeData.organization || ""}
+                onChange={(e) => setEditPledgeData({...editPledgeData, organization: e.target.value})}
+              />
+              <label className={styles.label}>Pledge Amount (R)</label>
+              <input 
+                type="number" 
+                required 
+                className={styles.inputField}
+                value={editPledgeData.amount || 0}
+                onChange={(e) => setEditPledgeData({...editPledgeData, amount: Number(e.target.value)})}
+              />
+              <label className={styles.label}>Challenged By</label>
+              <input 
+                type="text" 
+                required 
+                className={styles.inputField}
+                value={editPledgeData.challengedBy || ""}
+                onChange={(e) => setEditPledgeData({...editPledgeData, challengedBy: e.target.value})}
+              />
+              <button type="submit" className="btn-premium btn-accent" style={{ width: '100%', marginTop: '1rem' }}>
+                Save Changes
               </button>
             </form>
           </div>

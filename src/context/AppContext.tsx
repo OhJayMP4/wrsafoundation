@@ -49,6 +49,8 @@ interface AppContextType {
   addDonation: (donation: Omit<Donation, "id" | "date">) => Promise<void>;
   addPledge: (pledge: Omit<Pledge, "id" | "status" | "deadline" | "dateChallenged">) => Promise<string>;
   updatePledgeStatus: (pledgeId: string, status: Pledge["status"]) => Promise<void>;
+  deletePledge: (pledgeId: string) => Promise<void>;
+  editPledge: (pledgeId: string, updatedData: Partial<Pledge>) => Promise<void>;
   totalRaised: number;
   loading: boolean;
 }
@@ -196,6 +198,28 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const deletePledge = async (pledgeId: string) => {
+    try {
+      const { doc, deleteDoc } = await import("firebase/firestore");
+      const pledgeRef = doc(db, "pledges", pledgeId);
+      await deleteDoc(pledgeRef);
+    } catch (error) {
+      console.error("Error deleting pledge:", error);
+      throw error;
+    }
+  };
+
+  const editPledge = async (pledgeId: string, updatedData: Partial<Pledge>) => {
+    try {
+      const { doc, updateDoc } = await import("firebase/firestore");
+      const pledgeRef = doc(db, "pledges", pledgeId);
+      await updateDoc(pledgeRef, updatedData);
+    } catch (error) {
+      console.error("Error editing pledge:", error);
+      throw error;
+    }
+  };
+
   const totalRaised = donations.reduce((sum, d) => sum + d.amount, 0);
 
   return (
@@ -206,6 +230,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       addDonation, 
       addPledge, 
       updatePledgeStatus,
+      deletePledge,
+      editPledge,
       totalRaised,
       loading 
     }}>
