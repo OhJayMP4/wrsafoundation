@@ -12,7 +12,7 @@ export default function PledgesPage() {
 
   const handleAddPledge = (e: React.FormEvent) => {
     e.preventDefault();
-    addPledge(newPledgeData);
+    addPledge({ ...newPledgeData, challengedBy: "Admin Portal" });
     setIsModalOpen(false);
     setNewPledgeData({ fullName: "", organization: "", amount: 36000 });
   };
