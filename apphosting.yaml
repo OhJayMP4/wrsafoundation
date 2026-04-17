@@ -3,9 +3,9 @@ runtime: "nodejs20"
 # Secret mappings for production
 # Public variables (NEXT_PUBLIC_*) should be added in the Firebase Console
 env:
-  - name: FIREBASE_PRIVATE_KEY
+  - variable: FIREBASE_PRIVATE_KEY
     secret: FIREBASE_PRIVATE_KEY
-  - name: FIREBASE_CLIENT_EMAIL
+  - variable: FIREBASE_CLIENT_EMAIL
     secret: FIREBASE_CLIENT_EMAIL
 
 # Build settings
