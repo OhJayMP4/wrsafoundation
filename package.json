@@ -9,12 +9,12 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "next": "16.2.1",
-    "react": "19.2.4",
-    "react-dom": "19.2.4",
     "firebase": "^11.0.0",
     "firebase-admin": "^12.0.0",
-    "lucide-react": "^0.473.0"
+    "lucide-react": "^0.473.0",
+    "next": "16.2.1",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
   },
   "devDependencies": {
     "@types/node": "^20",
@@ -22,6 +22,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.1",
+    "firebase-tools": "^15.15.0",
     "typescript": "^5"
   }
 }
