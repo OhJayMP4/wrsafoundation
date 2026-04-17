@@ -12,6 +12,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname();
 
   const isActive = (path: string) => pathname === path;
+  const isLoginPage = pathname === "/admin/login";
+
+  if (isLoginPage) {
+    return (
+      <RouteGuard>
+        {children}
+      </RouteGuard>
+    );
+  }
 
   return (
     <RouteGuard>

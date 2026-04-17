@@ -39,7 +39,7 @@ export default function Home() {
             <Link href="/donate" className="btn-premium btn-accent">
               Accept the Challenge <ArrowRight size={18} className="ml-2" />
             </Link>
-            <Link href="/admin/dashboard" className="btn-premium btn-primary" style={{ border: '1px solid var(--glass-border)' }}>
+            <Link href="/leaderboard" className="btn-premium btn-primary" style={{ border: '1px solid var(--glass-border)' }}>
               View the Chain
             </Link>
           </div>

@@ -2,10 +2,16 @@
 
 import styles from "./ActivityTicker.module.css";
 import { useApp } from "@/context/AppContext";
-import { Award, TrendingUp, Users } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 export default function ActivityTicker() {
   const { activities } = useApp();
+  const pathname = usePathname();
+
+  // Hide the ticker entirely on the admin login page
+  if (pathname === "/admin/login") {
+    return null;
+  }
 
   return (
     <div className={styles.tickerWrapper}>
