@@ -17,10 +17,12 @@ export interface Pledge {
   fullName: string;
   organization: string;
   amount: number;
-  status: "pending" | "completed" | "overdue";
+  status: "pending" | "completed" | "overdue" | "denied";
   deadline: string;
   dateChallenged: string;
   challengedBy: string;
+  challengedById?: string;
+  nomineeEmail?: string;
 }
 
 export interface Donation {
@@ -36,7 +38,7 @@ export interface Donation {
 export interface Activity {
   id: string;
   message: string;
-  type: "pledge" | "donation" | "nomination";
+  type: "pledge" | "donation" | "nomination" | "denied";
   date: string;
 }
 
@@ -45,7 +47,8 @@ interface AppContextType {
   donations: Donation[];
   activities: Activity[];
   addDonation: (donation: Omit<Donation, "id" | "date">) => Promise<void>;
-  addPledge: (pledge: Omit<Pledge, "id" | "status" | "deadline" | "dateChallenged" | "challengedBy">) => Promise<void>;
+  addPledge: (pledge: Omit<Pledge, "id" | "status" | "deadline" | "dateChallenged">) => Promise<string>;
+  updatePledgeStatus: (pledgeId: string, status: Pledge["status"]) => Promise<void>;
   totalRaised: number;
   loading: boolean;
 }
@@ -99,27 +102,49 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const addDonation = async (newDonation: Omit<Donation, "id" | "date">) => {
     try {
-      const donationData = {
+      const donationData: any = {
         ...newDonation,
         date: new Date().toLocaleString(), // Store as string for now to match interface, or use Timestamp
         timestamp: serverTimestamp(),
       };
       
-      await addDoc(collection(db, "donations"), donationData);
+      // Firestore does not accept "undefined" values, so we delete it if it exists
+      if (donationData.pledgeId === undefined) {
+        delete donationData.pledgeId;
+      }
       
-      // Add to activity feed
-      await addDoc(collection(db, "activities"), {
-        message: `${newDonation.donorName} contributed R${newDonation.amount.toLocaleString()}`,
-        type: "donation",
-        date: "Just now",
-        timestamp: serverTimestamp(),
-      });
+      await addDoc(collection(db, "donations"), donationData);
+
+      // If this donation is attached to a pledge, mark the pledge as completed
+      if (newDonation.pledgeId) {
+        const { doc, updateDoc } = await import("firebase/firestore");
+        const pledgeRef = doc(db, "pledges", newDonation.pledgeId);
+        await updateDoc(pledgeRef, { status: "completed" });
+      } else {
+        // Only trigger generic activity feed if it wasn't a pledge fulfillment
+        await addDoc(collection(db, "activities"), {
+          message: `${newDonation.donorName} contributed R${newDonation.amount.toLocaleString()}`,
+          type: "donation",
+          date: "Just now",
+          timestamp: serverTimestamp(),
+        });
+      }
+
+      if (newDonation.pledgeId) {
+         await addDoc(collection(db, "activities"), {
+          message: `Challenge Accepted! ${newDonation.donorName} fulfilled their nomination.`,
+          type: "pledge",
+          date: "Just now",
+          timestamp: serverTimestamp(),
+        });
+      }
     } catch (error) {
       console.error("Error adding donation:", error);
+      throw error;
     }
   };
 
-  const addPledge = async (newPledge: Omit<Pledge, "id" | "status" | "deadline" | "dateChallenged" | "challengedBy">) => {
+  const addPledge = async (newPledge: Omit<Pledge, "id" | "status" | "deadline" | "dateChallenged">) => {
     try {
       const deadlineDate = new Date();
       deadlineDate.setDate(deadlineDate.getDate() + 7);
@@ -129,21 +154,45 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         status: "pending",
         dateChallenged: new Date().toISOString().split('T')[0],
         deadline: deadlineDate.toISOString().split('T')[0],
-        challengedBy: "Admin", // Default for now
         timestamp: serverTimestamp(),
       };
 
-      await addDoc(collection(db, "pledges"), pledgeData);
+      const docRef = await addDoc(collection(db, "pledges"), pledgeData);
 
       // Add to activity feed
       await addDoc(collection(db, "activities"), {
-        message: `New Pledge: ${newPledge.fullName} was nominated!`,
+        message: `New Nomination: ${newPledge.fullName} was challenged!`,
         type: "nomination",
         date: "Just now",
         timestamp: serverTimestamp(),
       });
+
+      return docRef.id;
     } catch (error) {
       console.error("Error adding pledge:", error);
+      throw error;
+    }
+  };
+
+  const updatePledgeStatus = async (pledgeId: string, status: Pledge["status"]) => {
+    try {
+      // In a real app we update the doc, but here we run into the firestore `updateDoc` needing an import.
+      // Let's use `addDoc` but wait, we need to update the existing document.
+      const { doc, updateDoc } = await import("firebase/firestore");
+      const pledgeRef = doc(db, "pledges", pledgeId);
+      await updateDoc(pledgeRef, { status });
+
+      if (status === "denied") {
+        await addDoc(collection(db, "activities"), {
+          message: `A pledge challenge was unaccepted.`,
+          type: "denied",
+          date: "Just now",
+          timestamp: serverTimestamp(),
+        });
+      }
+    } catch (error) {
+      console.error("Error updating pledge status:", error);
+      throw error;
     }
   };
 
@@ -156,6 +205,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       activities, 
       addDonation, 
       addPledge, 
+      updatePledgeStatus,
       totalRaised,
       loading 
     }}>

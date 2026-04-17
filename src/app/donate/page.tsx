@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import styles from "./donate.module.css";
 import { ArrowLeft, ShieldCheck, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { useApp } from "@/context/AppContext";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const AMOUNTS = [
   { label: "R500", value: 500 },
@@ -13,50 +14,40 @@ const AMOUNTS = [
   { label: "R36,000", value: 36000 },
 ];
 
-export default function DonatePage() {
+function DonateForm() {
   const { addDonation } = useApp();
-  const [amount, setAmount] = useState<number>(1000);
-  const [frequency, setFrequency] = useState<"once" | "monthly">("once");
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  
+  const initialValue = Number(searchParams.get("suggestedAmount")) || 1000;
+  const pledgeId = searchParams.get("pledgeId") || undefined;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [amount, setAmount] = useState<number>(initialValue);
+  const [frequency, setFrequency] = useState<"once" | "monthly">("once");
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email) return;
+    setIsSubmitting(true);
     
-    addDonation({
-      donorName: formData.name,
-      amount: Number(amount),
-      type: amount >= 36000 ? "Pledge Pay" : "General",
-      method: "Credit Card",
-    });
-    
-    setIsSuccess(true);
+    try {
+      await addDonation({
+        donorName: formData.name,
+        amount: Number(amount),
+        type: amount >= 36000 ? "Pledge Pay" : "General",
+        method: "Credit Card",
+        pledgeId: pledgeId,
+      });
+      
+      // Redirect to the post-donation Nominate page
+      router.push(`/nominate?nominatorName=${encodeURIComponent(formData.name)}`);
+    } catch (err) {
+      console.error(err);
+      setIsSubmitting(false);
+    }
   };
-
-  if (isSuccess) {
-    return (
-      <div className={styles.container} style={{ textAlign: 'center', padding: '6rem 2rem' }}>
-        <div className="glass-card" style={{ padding: '4rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem', maxWidth: '600px', margin: '0 auto' }}>
-          <CheckCircle2 size={64} color="var(--accent)" />
-          <h1 style={{ color: 'var(--primary)', marginBottom: 0 }}>Link Forge Successful!</h1>
-          <p style={{ opacity: 0.7 }}>
-            Thank you, {formData.name.split(' ')[0]}. Your link in the **Wildlife Pledge Chain** has been forged.
-          </p>
-          
-          <div style={{ marginTop: '2rem', padding: '2rem', background: 'rgba(197, 160, 89, 0.05)', borderRadius: 'var(--radius)', border: '1px solid var(--accent)', width: '100%' }}>
-            <h2 style={{ fontSize: '1.5rem', marginBottom: '0.5rem', color: 'var(--primary)' }}>Who is next?</h2>
-            <p style={{ fontSize: '0.875rem', opacity: 0.7, marginBottom: '1.5rem' }}>The chain must continue. Nominate a peer to take the next link.</p>
-            <Link href="/admin/pledges" className="btn-premium btn-accent" style={{ width: '100%', display: 'block' }}>
-              Nominate a Leader
-            </Link>
-          </div>
-
-          <Link href="/" className="btn-premium btn-secondary" style={{ marginTop: '1rem', opacity: 0.6 }}>Back to Home</Link>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className={styles.container}>
@@ -66,7 +57,11 @@ export default function DonatePage() {
       
       <div className={styles.header}>
         <h1 className={styles.title}>Ignite the <span className="text-accent">Chain</span></h1>
-        <p>Select your contribution tier and help us safeguard South Africa&apos;s heritage.</p>
+        <p>
+          {pledgeId 
+            ? "Fulfill your nomination and cement your legacy in conservation." 
+            : "Select your contribution tier and help us safeguard South Africa's heritage."}
+        </p>
       </div>
 
       <div className={`${styles.formCard} glass-card`}>
@@ -160,5 +155,13 @@ export default function DonatePage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function DonatePage() {
+  return (
+    <Suspense fallback={<div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Loading...</div>}>
+      <DonateForm />
+    </Suspense>
   );
 }
