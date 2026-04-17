@@ -52,8 +52,8 @@ export default function ChallengePage() {
 
   const handleAccept = () => {
     if (!pledge) return;
-    // Redirect to donate page with pledge ID
-    router.push(`/donate?pledgeId=${pledge.id}&suggestedAmount=${pledge.amount}`);
+    // Redirect to the dedicated challenge payment page
+    router.push(`/challenge/${pledge.id}/pay`);
   };
 
   if (loading) {
