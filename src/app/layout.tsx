@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import { AppProvider } from "@/context/AppContext";
+import { AuthProvider } from "@/context/AuthContext";
 import ActivityTicker from "@/components/ActivityTicker";
 
 const inter = Inter({
@@ -27,10 +28,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
       <body>
-        <AppProvider>
-          <ActivityTicker />
-          {children}
-        </AppProvider>
+        <AuthProvider>
+          <AppProvider>
+            <ActivityTicker />
+            {children}
+          </AppProvider>
+        </AuthProvider>
       </body>
     </html>
   );
