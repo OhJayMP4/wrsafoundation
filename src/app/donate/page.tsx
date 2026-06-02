@@ -320,7 +320,7 @@ function DonateForm() {
             <p>Will you nominate a peer in the wildlife industry to match your commitment? This is how the chain grows.</p>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem", marginBottom: "1.5rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "1.25rem", marginBottom: "1.5rem" }}>
             <button
               onClick={() => { setStep(3); window.scrollTo({ top: 0, behavior: "smooth" }); }}
               className={`${styles.formCard} glass-card`}
