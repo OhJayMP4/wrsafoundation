@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Menu, X, Award } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import Image from "next/image";
 
 const NAV_LINKS = [
   { label: "About", href: "/about" },
@@ -43,9 +44,7 @@ export default function PublicNav() {
       }}>
         {/* Logo */}
         <Link href="/" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none" }}>
-          <div style={{ width: "34px", height: "34px", background: "var(--accent)", borderRadius: "6px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <Award size={20} color="var(--primary)" />
-          </div>
+          <Image src="/logo.png" alt="WRSA Foundation" width={38} height={38} style={{ objectFit: "contain" }} />
           <span style={{ color: "white", fontFamily: "var(--font-heading)", fontWeight: 800, fontSize: "0.95rem", letterSpacing: "0.02em" }}>
             Wildlife Pledge Chain
           </span>

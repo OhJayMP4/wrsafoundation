@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Award, Mail, Phone, ArrowRight } from "lucide-react";
+import { Mail, Phone, ArrowRight } from "lucide-react";
+import Image from "next/image";
 
 const NAV = [
   { label: "About", href: "/about" },
@@ -49,9 +50,7 @@ export default function Footer() {
         {/* Brand column */}
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "1.25rem" }}>
-            <div style={{ width: "36px", height: "36px", background: "var(--accent)", borderRadius: "6px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <Award size={20} color="var(--primary)" />
-            </div>
+            <Image src="/logo.png" alt="WRSA Foundation" width={42} height={42} style={{ objectFit: "contain" }} />
             <div>
               <div style={{ fontFamily: "var(--font-heading)", fontWeight: 800, fontSize: "0.95rem", color: "white" }}>Wildlife Pledge Chain</div>
               <div style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.45)", letterSpacing: "0.05em" }}>WRSA Foundation</div>
