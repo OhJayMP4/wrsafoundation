@@ -14,8 +14,8 @@ export default function PageLoader() {
     }
     sessionStorage.setItem("loader_seen", "1");
 
-    const t1 = setTimeout(() => setFading(true), 1400);
-    const t2 = setTimeout(() => setGone(true), 1900);
+    const t1 = setTimeout(() => setFading(true), 2600);
+    const t2 = setTimeout(() => setGone(true), 3100);
     return () => { clearTimeout(t1); clearTimeout(t2); };
   }, []);
 

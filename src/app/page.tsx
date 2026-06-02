@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./page.module.css";
-import { Heart, Users, ArrowRight, ShieldCheck, Award } from "lucide-react";
+import { Heart, Users, ArrowRight, Award } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import FadeIn from "@/components/FadeIn";
 
@@ -160,12 +160,6 @@ export default function Home() {
         </FadeIn>
       </main>
 
-      {/* Footer */}
-      <footer className={styles.footer}>
-        <div style={{ opacity: 0.6, display: "flex", alignItems: "center", gap: "8px" }}>
-          <ShieldCheck size={16} /> Secure Wildlife Conservation Platform
-        </div>
-      </footer>
     </div>
   );
 }
