@@ -169,8 +169,15 @@
 }
 
 /* ── Table ── */
+.tableScroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 .premiumTable {
   width: 100%;
+  min-width: 640px; /* keeps columns readable; outer div scrolls */
   border-collapse: collapse;
 }
 

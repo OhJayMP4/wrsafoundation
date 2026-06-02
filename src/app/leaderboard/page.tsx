@@ -55,10 +55,11 @@ export default function LeaderboardPage() {
 
         {/* Donors table */}
         <div className="glass-card" style={{ overflow: "hidden", marginBottom: "2rem" }}>
-          <div style={{ padding: "1.75rem 2.25rem", borderBottom: "1px solid rgba(28,46,36,0.06)" }}>
-            <h2 style={{ fontSize: "1.35rem", margin: 0 }}>Legacy Champions</h2>
+          <div style={{ padding: "1.5rem 1.75rem", borderBottom: "1px solid rgba(28,46,36,0.06)" }}>
+            <h2 style={{ fontSize: "1.2rem", margin: 0 }}>Legacy Champions</h2>
           </div>
-          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+          <div className="table-scroll">
+          <table style={{ width: "100%", minWidth: "480px", borderCollapse: "collapse" }}>
             <thead>
               <tr>
                 <th style={{ padding: "0.875rem 1.5rem", textAlign: "left", fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.09em", opacity: 0.4, fontWeight: 700, fontFamily: "var(--font-heading)", borderBottom: "1px solid rgba(28,46,36,0.06)" }}>#</th>
@@ -84,6 +85,7 @@ export default function LeaderboardPage() {
               )}
             </tbody>
           </table>
+          </div>{/* table-scroll */}
         </div>
 
         {/* Declined */}

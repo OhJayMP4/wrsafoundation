@@ -80,6 +80,7 @@ export default function DonationsPage() {
           </div>
         </div>
 
+        <div className={styles.tableScroll}>
         <table className={styles.premiumTable}>
           <thead style={{ background: "#fcfcfb" }}>
             <tr>
@@ -128,6 +129,7 @@ export default function DonationsPage() {
             ))}
           </tbody>
         </table>
+        </div>{/* tableScroll */}
       </div>
     </div>
   );

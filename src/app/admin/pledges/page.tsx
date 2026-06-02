@@ -208,6 +208,7 @@ export default function PledgesPage() {
           </div>
         </div>
 
+        <div className={styles.tableScroll}>
         <table className={styles.premiumTable}>
           <thead style={{ background: "#fcfcfb" }}>
             <tr>
@@ -299,6 +300,7 @@ export default function PledgesPage() {
             })}
           </tbody>
         </table>
+        </div>{/* tableScroll */}
       </div>
 
       {/* Add Pledge Modal */}
