@@ -7,7 +7,7 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 const FAQS = [
   {
     q: "Is there a minimum pledge amount?",
-    a: "There is no formal minimum, but the Wildlife Pledge Chain is built around a suggested commitment of R36,000 — representing a meaningful contribution to conservation. However, any amount is genuinely welcome and appreciated.",
+    a: "There is no formal minimum. Any amount is genuinely welcome and appreciated — what matters most is your commitment to conservation.",
   },
   {
     q: "How do I make payment after pledging?",

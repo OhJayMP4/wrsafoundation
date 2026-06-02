@@ -11,7 +11,7 @@ const AMOUNTS = [
   { label: "R5,000", value: 5000 },
   { label: "R10,000", value: 10000 },
   { label: "R20,000", value: 20000 },
-  { label: "R36,000", value: 36000 },
+  { label: "R40,000", value: 40000 },
 ];
 
 type Step = 1 | 2 | 3;
@@ -21,7 +21,7 @@ function DonateForm() {
   const router = useRouter();
 
   const [step, setStep] = useState<Step>(1);
-  const [amount, setAmount] = useState<number>(36000);
+  const [amount, setAmount] = useState<number>(40000);
   const [customAmount, setCustomAmount] = useState("");
 
   const [pledgerData, setPledgerData] = useState({
