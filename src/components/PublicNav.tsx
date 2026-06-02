@@ -47,7 +47,7 @@ export default function PublicNav() {
             <Award size={20} color="var(--primary)" />
           </div>
           <span style={{ color: "white", fontFamily: "var(--font-heading)", fontWeight: 800, fontSize: "0.95rem", letterSpacing: "0.02em" }}>
-            WRSA Foundation
+            Wildlife Pledge Chain
           </span>
         </Link>
 
