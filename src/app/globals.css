@@ -136,6 +136,40 @@ a { color: inherit; text-decoration: none; }
 .ml-2 { margin-left: 0.5rem; }
 .mr-2 { margin-right: 0.5rem; }
 
+/* ── Animation keyframes ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.94); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Hero entrance — applied via CSS classes in page.module.css */
+.animate-hero { animation: fadeUp 0.75s ease both; }
+
+/* Button press feedback */
+.btn-premium:active {
+  transform: scale(0.97) !important;
+  transition-duration: 0.08s !important;
+}
+
+/* Clickable card hover lift */
+.card-hover {
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+.card-hover:hover {
+  box-shadow: 0 14px 44px rgba(28, 46, 36, 0.13);
+  transform: translateY(-3px);
+}
+
 /* ── Global mobile baseline ── */
 @media (max-width: 600px) {
   html { font-size: 16px; }

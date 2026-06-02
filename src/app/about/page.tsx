@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Shield, Eye, Leaf, Users } from "lucide-react";
+import FadeIn from "@/components/FadeIn";
 
 export default function AboutPage() {
   return (
@@ -49,12 +50,14 @@ export default function AboutPage() {
             { icon: <Eye size={26} />, title: "Transparency", body: "We publish detailed impact reports so donors know exactly where their money goes. From anti-poaching patrols to habitat restoration, every rand is accounted for." },
             { icon: <Leaf size={26} />, title: "Ecological Integrity", body: "We work within ecosystems, not against them. Our programmes are designed by ecologists and vetted by conservation scientists to ensure long-term viability." },
             { icon: <Users size={26} />, title: "Industry Partnership", body: "Southern Africa's wildlife industry is uniquely positioned to lead conservation. We build bridges between game reserves, lodges, and conservation bodies to multiply impact." },
-          ].map((card) => (
-            <div key={card.title} className="glass-card" style={{ padding: "2rem" }}>
+          ].map((card, i) => (
+            <FadeIn key={card.title} direction="up" delay={i * 80}>
+            <div className="glass-card card-hover" style={{ padding: "2rem" }}>
               <div style={{ color: "var(--accent)", marginBottom: "1rem" }}>{card.icon}</div>
               <h3 style={{ marginBottom: "0.75rem", fontSize: "1.1rem" }}>{card.title}</h3>
               <p style={{ opacity: 0.65, fontSize: "0.9rem", lineHeight: 1.7 }}>{card.body}</p>
             </div>
+            </FadeIn>
           ))}
         </div>
 

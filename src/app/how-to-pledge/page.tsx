@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, UserPlus, Banknote, Award, Share2 } from "lucide-react";
+import FadeIn from "@/components/FadeIn";
 
 const STEPS = [
   {
@@ -44,10 +45,11 @@ export default function HowToPledgePage() {
 
       <div style={{ maxWidth: "860px", margin: "0 auto", padding: "4rem 1.25rem 5rem" }}>
 
-        {/* Steps — number badge lives inside the card so it works on all screen sizes */}
+        {/* Steps */}
         <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem", marginBottom: "4rem" }}>
-          {STEPS.map((step) => (
-            <div key={step.number} className="glass-card" style={{ padding: "1.75rem 2rem" }}>
+          {STEPS.map((step, i) => (
+            <FadeIn key={step.number} direction="up" delay={i * 100}>
+            <div className="glass-card card-hover" style={{ padding: "1.75rem 2rem" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "0.875rem" }}>
                 <div style={{
                   width: "40px", height: "40px", borderRadius: "50%", flexShrink: 0,
@@ -62,6 +64,7 @@ export default function HowToPledgePage() {
               </div>
               <p style={{ opacity: 0.65, lineHeight: 1.75, fontSize: "0.95rem", paddingLeft: "3.25rem" }}>{step.body}</p>
             </div>
+            </FadeIn>
           ))}
         </div>
 

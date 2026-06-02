@@ -63,6 +63,8 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
+  animation: fadeUp 0.7s ease both;
+  animation-delay: 0.1s;
 }
 
 .heroContent h1 {
@@ -71,6 +73,8 @@
   margin: 0;
   color: #fff;
   font-weight: 800;
+  animation: fadeUp 0.75s ease both;
+  animation-delay: 0.25s;
 }
 
 .heroContent p {
@@ -78,6 +82,8 @@
   max-width: 560px;
   color: rgba(255, 255, 255, 0.85);
   line-height: 1.7;
+  animation: fadeUp 0.75s ease both;
+  animation-delay: 0.42s;
 }
 
 /* CTAs sit side-by-side; primary dominates through size */
@@ -89,6 +95,8 @@
   margin-top: 0.5rem;
   flex-wrap: wrap;
   justify-content: center;
+  animation: fadeUp 0.75s ease both;
+  animation-delay: 0.58s;
 }
 
 .heroPrimary {
