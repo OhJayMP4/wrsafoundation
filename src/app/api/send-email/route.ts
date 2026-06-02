@@ -144,8 +144,9 @@ export async function POST(req: NextRequest) {
     const data: EmailData = await req.json();
 
     if (!resend) {
-      console.log("[EMAIL - simulated, no RESEND_API_KEY]", data.type, data);
-      return NextResponse.json({ success: true, simulated: true });
+      console.warn("⚠️  EMAIL NOT SENT — RESEND_API_KEY is missing from .env.local");
+      console.warn("   Type:", data.type, "| To:", data.pledgerEmail || data.nomineeEmail || ADMIN_EMAIL);
+      return NextResponse.json({ success: false, simulated: true, error: "RESEND_API_KEY not configured" });
     }
 
     let subject = "";

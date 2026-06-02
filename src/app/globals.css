@@ -180,6 +180,11 @@ a { color: inherit; text-decoration: none; }
   transform: translateY(-3px);
 }
 
+/* ── Mobile shell padding (ticker 40px + taller nav 72px) ── */
+@media (max-width: 768px) {
+  .public-shell { padding-top: 112px !important; }
+}
+
 /* ── Global mobile baseline ── */
 @media (max-width: 600px) {
   html { font-size: 16px; }

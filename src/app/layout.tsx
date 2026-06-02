@@ -6,8 +6,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import ActivityTicker from "@/components/ActivityTicker";
 import PublicNav from "@/components/PublicNav";
 import PageLoader from "@/components/PageLoader";
-import PageTransition from "@/components/PageTransition";
-import Footer from "@/components/Footer";
+import RootShell from "@/components/RootShell";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -36,15 +35,12 @@ export default function RootLayout({
         <AuthProvider>
           <AppProvider>
             <PageLoader />
+            {/* Ticker sits at the very top (fixed, z-index 600) */}
+            <ActivityTicker />
+            {/* Nav sits below the ticker (fixed, top: 40px, z-index 500) */}
             <PublicNav />
-            {/* Push content below the fixed nav (64px) + ticker (~38px) */}
-            <div style={{ paddingTop: "64px" }}>
-              <ActivityTicker />
-              <PageTransition>
-                {children}
-              </PageTransition>
-              <Footer />
-            </div>
+            {/* Shell applies correct padding and renders page + footer */}
+            <RootShell>{children}</RootShell>
           </AppProvider>
         </AuthProvider>
       </body>

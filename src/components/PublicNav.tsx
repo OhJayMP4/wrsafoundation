@@ -24,7 +24,7 @@ export default function PublicNav() {
   return (
     <nav style={{
       position: "fixed",
-      top: 0,
+      top: "40px",
       left: 0,
       right: 0,
       zIndex: 500,
@@ -41,7 +41,7 @@ export default function PublicNav() {
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-      }}>
+      }} className="nav-inner">
         {/* Logo */}
         <Link href="/" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none" }}>
           <Image src="/logo.png" alt="WRSA Foundation" width={38} height={38} style={{ objectFit: "contain" }} />
@@ -109,6 +109,7 @@ export default function PublicNav() {
         @media (max-width: 768px) {
           .nav-desktop { display: none !important; }
           .nav-mobile-toggle { display: block !important; }
+          .nav-inner { height: 72px !important; padding: 0 1.25rem !important; }
         }
       `}</style>
     </nav>
