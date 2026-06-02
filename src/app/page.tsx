@@ -36,17 +36,17 @@ export default function Home() {
             of wildlife conservationists committing to the future of our industry.
           </p>
           <div className={styles.heroActions}>
-            <Link href="/donate" className="btn-premium btn-accent">
-              Accept the Challenge <ArrowRight size={18} className="ml-2" />
+            <Link href="/donate" className={`btn-premium btn-accent ${styles.heroPrimary}`}>
+              Accept the Challenge <ArrowRight size={20} />
             </Link>
-            <Link href="/leaderboard" className="btn-premium btn-primary" style={{ border: '1px solid var(--glass-border)' }}>
+            <Link href="/leaderboard" className={`btn-premium ${styles.heroSecondary}`}>
               View the Chain
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Dynamic Stats Section - Glassmorphism */}
+      {/* Stats Bar */}
       <section className={styles.statsSection}>
         <div className={`${styles.statsGrid} glass-card`}>
           <div className={styles.statItem}>
@@ -58,17 +58,22 @@ export default function Home() {
             <div className={styles.statValue}>{activePledges}</div>
           </div>
           <div className={styles.statItem}>
-            <div className={styles.statLabel}>Success Rate</div>
-            <div className={styles.statValue}>100%</div>
+            <div className={styles.statLabel}>Chain Links</div>
+            <div className={styles.statValue}>{pledges.length}</div>
           </div>
         </div>
       </section>
 
-      {/* 🔥 Live Challenge Board - Strategic Social Pressure */}
+      {/* Live Challenge Board */}
       <section className={styles.challengeBoard}>
         <div className={styles.boardHeader}>
-          <h2 className="animate-fade-in">🔥 The <span className="text-accent">Live Challenge Board</span></h2>
-          <p className={styles.boardSubtitle}>Visibility. Urgency. Accountability. These leaders are next in the chain.</p>
+          <div>
+            <h2>The <span className="text-accent">Live Challenge Board</span></h2>
+            <p className={styles.boardSubtitle}>These leaders have been nominated and are next in the chain.</p>
+          </div>
+          <Link href="/leaderboard" className="btn-premium btn-primary" style={{ fontSize: '0.8rem', minHeight: '44px', padding: '0.75rem 1.5rem' }}>
+            View Full Honour Roll
+          </Link>
         </div>
 
         <div className={styles.pledgeGrid}>
@@ -127,26 +132,26 @@ export default function Home() {
 
       {/* Info Cards Section */}
       <main className={styles.content}>
-        <div className={`${styles.card} glass-card`}>
-          <div className={styles.iconCircle}><Heart size={32} /></div>
+        <div className={styles.card}>
+          <div className={styles.iconCircle}><Heart size={28} /></div>
           <h2>Our Mission</h2>
           <p>
-            The WRSA Foundation preserves biodiversity through strategic 
-            industry partnership. The Wildlife Pledge Chain is our flagship initiative 
+            The WRSA Foundation preserves biodiversity through strategic
+            industry partnership. The Wildlife Pledge Chain is our flagship initiative
             driving direct conservation impact.
           </p>
         </div>
 
-        <div className={`${styles.card} glass-card`}>
-          <div className={styles.iconCircle}><Users size={32} /></div>
+        <div className={styles.card}>
+          <div className={styles.iconCircle}><Users size={28} /></div>
           <h2>The Chain Reaction</h2>
           <p>
-            Make your pledge, fulfill your commitment, and nominate the next 
-            leader to carry the torch. Every link in the chain strengthens 
+            Accept the challenge, commit your pledge, and nominate the next
+            leader to carry the torch. Every link in the chain strengthens
             our collective legacy.
           </p>
           <Link href="/donate" className={styles.textLink}>
-            How to nominate <ArrowRight size={16} />
+            How it works <ArrowRight size={16} />
           </Link>
         </div>
       </main>

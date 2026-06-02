@@ -4,6 +4,7 @@ import "./globals.css";
 import { AppProvider } from "@/context/AppContext";
 import { AuthProvider } from "@/context/AuthContext";
 import ActivityTicker from "@/components/ActivityTicker";
+import PublicNav from "@/components/PublicNav";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -13,6 +14,7 @@ const inter = Inter({
 const outfit = Outfit({
   variable: "--font-outfit",
   subsets: ["latin"],
+  weight: ["400", "600", "700", "800", "900"],
 });
 
 export const metadata: Metadata = {
@@ -30,8 +32,12 @@ export default function RootLayout({
       <body>
         <AuthProvider>
           <AppProvider>
-            <ActivityTicker />
-            {children}
+            <PublicNav />
+            {/* Push content below the fixed nav (64px) + ticker (~38px) */}
+            <div style={{ paddingTop: "64px" }}>
+              <ActivityTicker />
+              {children}
+            </div>
           </AppProvider>
         </AuthProvider>
       </body>

@@ -1,44 +1,40 @@
 :root {
-  /* Premium Earthy Palette */
+  /* Palette */
   --background: #fbfaf7;
   --foreground: #1c2e24;
-  
+
   --primary: #1c2e24;
   --primary-light: #2d4538;
   --primary-foreground: #f4f1ea;
-  
+
   --secondary: #5d4638;
   --secondary-foreground: #f4f1ea;
-  
+
   --accent: #c5a059;
   --accent-light: #d4b882;
   --accent-foreground: #1c2e24;
-  
-  /* Glassmorphism & Borders */
-  --glass: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.3);
-  --card-shadow: 0 8px 32px 0 rgba(28, 46, 36, 0.08);
-  
+
+  --muted: rgba(28, 46, 36, 0.5);
+  --border: rgba(28, 46, 36, 0.08);
+
+  /* Glass */
+  --glass: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.35);
+  --card-shadow: 0 8px 32px rgba(28, 46, 36, 0.08);
+
   /* Layout */
-  --radius-sm: 8px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
+  --radius-sm: 10px;
+  --radius-md: 18px;
+  --radius-lg: 28px;
   --container-width: 1240px;
-  
+
   /* Typography */
-  --font-heading: var(--font-outfit), sans-serif;
-  --font-body: var(--font-inter), sans-serif;
+  --font-heading: var(--font-outfit), system-ui, sans-serif;
+  --font-body: var(--font-inter), system-ui, sans-serif;
 }
 
-[data-theme='dark'] {
-  --background: #0d1410;
-  --foreground: #f4f1ea;
-  --primary: #1c2e24;
-  --glass: rgba(28, 46, 36, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.1);
-}
-
-* {
+/* ── Reset ── */
+*, *::before, *::after {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
@@ -46,72 +42,96 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+  font-size: 17px;
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: var(--font-body);
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
+/* ── Typography ── */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
   font-weight: 700;
   letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--foreground);
 }
 
-/* Glass Card Utility */
+p { line-height: 1.75; }
+
+a { color: inherit; text-decoration: none; }
+
+/* ── Accent colour utility ── */
+.text-accent { color: var(--accent); }
+
+/* ── Glass card ── */
 .glass-card {
   background: var(--glass);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--glass-border);
   box-shadow: var(--card-shadow);
   border-radius: var(--radius-md);
 }
 
-/* Premium Button Utility */
+/* ── Buttons ── */
 .btn-premium {
   position: relative;
-  overflow: hidden;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem 2rem;
+  gap: 0.5rem;
+  padding: 1rem 2.25rem;
   font-family: var(--font-heading);
   font-weight: 700;
+  font-size: 1rem;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  letter-spacing: 0.06em;
   border-radius: 9999px;
-  border: none;
+  border: 2px solid transparent;
   cursor: pointer;
-  z-index: 1;
+  transition: all 0.22s ease;
+  min-height: 54px;
+  white-space: nowrap;
+  text-decoration: none;
 }
 
-.btn-premium::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: currentColor;
-  opacity: 0;
-  z-index: -1;
-  transition: opacity 0.3s ease;
-}
-
-.btn-premium:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-}
-
+/* Primary — dark green, high contrast, dominant */
 .btn-primary {
   background: var(--primary);
   color: var(--primary-foreground);
+  border-color: var(--primary);
 }
 
+.btn-primary:hover {
+  background: var(--primary-light);
+  border-color: var(--primary-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(28, 46, 36, 0.25);
+}
+
+/* Accent — gold, eye-catching, for main call-to-action */
 .btn-accent {
   background: var(--accent);
   color: var(--accent-foreground);
+  border-color: var(--accent);
+  font-size: 1.05rem;
+  padding: 1.1rem 2.5rem;
+  box-shadow: 0 4px 20px rgba(197, 160, 89, 0.35);
 }
+
+.btn-accent:hover {
+  background: var(--accent-light);
+  border-color: var(--accent-light);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(197, 160, 89, 0.4);
+}
+
+/* ── Spacing utilities ── */
+.ml-2 { margin-left: 0.5rem; }
+.mr-2 { margin-right: 0.5rem; }
