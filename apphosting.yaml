@@ -10,11 +10,11 @@ env:
   - variable: SENDGRID_API_KEY
     secret: SENDGRID_API_KEY
   - variable: SENDGRID_FROM_EMAIL
-    value: "marketing@saturnmanagement.co.za"
+    value: "foundation@wrsa.co.za"
   - variable: SENDGRID_FROM_NAME
     value: "WRSA Foundation"
   - variable: ADMIN_EMAIL
-    value: "marketing@saturnmanagement.co.za"
+    value: "foundation@wrsa.co.za,marketing@saturnmanagement.co.za"
   - variable: NEXT_PUBLIC_APP_URL
     value: "https://wrsafoundation--wrsafoundation.europe-west4.hosted.app"
   - variable: BANK_NAME

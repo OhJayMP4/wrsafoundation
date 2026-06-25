@@ -4,8 +4,12 @@ import sgMail from "@sendgrid/mail";
 const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
 if (SENDGRID_API_KEY) sgMail.setApiKey(SENDGRID_API_KEY);
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "marketing@saturnmanagement.co.za";
-const FROM_EMAIL = process.env.SENDGRID_FROM_EMAIL || "marketing@saturnmanagement.co.za";
+// Supports a comma-separated list, e.g. "foundation@wrsa.co.za,marketing@saturnmanagement.co.za"
+const ADMIN_EMAILS = (process.env.ADMIN_EMAIL || "foundation@wrsa.co.za")
+  .split(",")
+  .map((e) => e.trim())
+  .filter(Boolean);
+const FROM_EMAIL = process.env.SENDGRID_FROM_EMAIL || "foundation@wrsa.co.za";
 const FROM_NAME = process.env.SENDGRID_FROM_NAME || "WRSA Foundation";
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
@@ -147,7 +151,7 @@ export async function POST(req: NextRequest) {
 
     if (!SENDGRID_API_KEY) {
       console.warn("⚠️  EMAIL NOT SENT — SENDGRID_API_KEY is missing from .env.local");
-      console.warn("   Type:", data.type, "| To:", data.pledgerEmail || data.nomineeEmail || ADMIN_EMAIL);
+      console.warn("   Type:", data.type, "| To:", data.pledgerEmail || data.nomineeEmail || ADMIN_EMAILS.join(", "));
       return NextResponse.json({ success: false, simulated: true, error: "SENDGRID_API_KEY not configured" });
     }
 
@@ -165,7 +169,7 @@ export async function POST(req: NextRequest) {
       case "pledge_admin_notify":
         subject = `New Pledge: ${data.pledgerName} — R${data.amount?.toLocaleString()}`;
         html = buildAdminNotifyEmail(data);
-        to = [ADMIN_EMAIL];
+        to = ADMIN_EMAILS;
         break;
 
       case "nominee_challenge":
