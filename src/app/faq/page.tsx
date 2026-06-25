@@ -6,6 +6,18 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 
 const FAQS = [
   {
+    q: "What is the difference between a Pledge and Monthly Support?",
+    a: "A Pledge is a once-off commitment — you choose an amount, pay it via EFT, and your name appears on the Honour Roll. You can also nominate someone else to continue the chain. Monthly Support is a recurring debit order — you create a supporter account, set up a monthly amount (or custom figure) and a commitment period of 6 to 12 months, and your contribution is debited from your account automatically each month on a date you choose. Pledges are ideal for a one-time impact and growing the chain through nominations; Monthly Support is for those who want to provide sustained, predictable funding over time.",
+  },
+  {
+    q: "Do I need to create an account to set up a monthly debit order?",
+    a: "Yes. Monthly Support requires a free supporter account so you can securely manage your debit order details and check its status at any time. Pledges do not require an account — they're a single form submission.",
+  },
+  {
+    q: "Can I cancel my monthly debit order before the commitment period ends?",
+    a: "Monthly Support requires a minimum commitment of 6 months, up to a maximum of 12. If your circumstances change, please contact us directly — we're happy to discuss adjusting or pausing your debit order.",
+  },
+  {
     q: "Is there a minimum pledge amount?",
     a: "There is no formal minimum. Any amount is genuinely welcome and appreciated — what matters most is your commitment to conservation.",
   },
