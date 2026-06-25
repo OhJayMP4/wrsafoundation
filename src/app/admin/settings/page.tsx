@@ -23,13 +23,13 @@ export default function SettingsPage() {
             </div>
             <div>
               <h2 style={{ fontSize: "1rem", fontWeight: 800, margin: 0 }}>Email Notifications</h2>
-              <p style={{ fontSize: "0.8rem", opacity: 0.5, margin: 0 }}>Powered by Resend</p>
+              <p style={{ fontSize: "0.8rem", opacity: 0.5, margin: 0 }}>Powered by SendGrid</p>
             </div>
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
             <div>
-              <label className={styles.label}>RESEND_API_KEY</label>
+              <label className={styles.label}>SENDGRID_API_KEY</label>
               <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "0.75rem 1rem", background: "#f8faf9", borderRadius: "8px", border: "1px solid rgba(0,0,0,0.06)", fontFamily: "monospace", fontSize: "0.85rem", color: "#6b7280" }}>
                 <Key size={14} style={{ flexShrink: 0 }} />
                 Set in <code style={{ background: "#eee", padding: "2px 6px", borderRadius: "4px" }}>.env.local</code>
@@ -43,7 +43,7 @@ export default function SettingsPage() {
               </div>
             </div>
             <div>
-              <label className={styles.label}>RESEND_FROM_EMAIL</label>
+              <label className={styles.label}>SENDGRID_FROM_EMAIL</label>
               <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "0.75rem 1rem", background: "#f8faf9", borderRadius: "8px", border: "1px solid rgba(0,0,0,0.06)", fontFamily: "monospace", fontSize: "0.85rem", color: "#6b7280" }}>
                 <Globe size={14} style={{ flexShrink: 0 }} />
                 Set in <code style={{ background: "#eee", padding: "2px 6px", borderRadius: "4px" }}>.env.local</code>
@@ -54,7 +54,7 @@ export default function SettingsPage() {
           <div style={{ marginTop: "1.5rem", padding: "1rem", background: "rgba(197,160,89,0.08)", borderRadius: "8px", display: "flex", gap: "10px", fontSize: "0.8rem" }}>
             <Info size={14} style={{ flexShrink: 0, marginTop: "1px", color: "var(--accent)" }} />
             <span style={{ opacity: 0.8, lineHeight: 1.5 }}>
-              To enable emails, create a free account at <strong>resend.com</strong>, generate an API key, and add it to your <code style={{ background: "#eee", padding: "1px 4px", borderRadius: "3px" }}>.env.local</code> file. Verify your sending domain for production use.
+              To enable emails, create an account at <strong>sendgrid.com</strong>, generate an API key, and add it to your <code style={{ background: "#eee", padding: "1px 4px", borderRadius: "3px" }}>.env.local</code> file. You must also verify a Single Sender or domain in SendGrid matching SENDGRID_FROM_EMAIL before sends will succeed.
             </span>
           </div>
         </div>

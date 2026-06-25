@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Resend } from "resend";
+import sgMail from "@sendgrid/mail";
 
-const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
+const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
+if (SENDGRID_API_KEY) sgMail.setApiKey(SENDGRID_API_KEY);
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "ockertfernandes@gmail.com";
-const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "WRSA Foundation <onboarding@resend.dev>";
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "marketing@saturnmanagement.co.za";
+const FROM_EMAIL = process.env.SENDGRID_FROM_EMAIL || "marketing@saturnmanagement.co.za";
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
 const BANK_NAME = process.env.BANK_NAME || "Standard Bank";
@@ -143,10 +144,10 @@ export async function POST(req: NextRequest) {
   try {
     const data: EmailData = await req.json();
 
-    if (!resend) {
-      console.warn("⚠️  EMAIL NOT SENT — RESEND_API_KEY is missing from .env.local");
+    if (!SENDGRID_API_KEY) {
+      console.warn("⚠️  EMAIL NOT SENT — SENDGRID_API_KEY is missing from .env.local");
       console.warn("   Type:", data.type, "| To:", data.pledgerEmail || data.nomineeEmail || ADMIN_EMAIL);
-      return NextResponse.json({ success: false, simulated: true, error: "RESEND_API_KEY not configured" });
+      return NextResponse.json({ success: false, simulated: true, error: "SENDGRID_API_KEY not configured" });
     }
 
     let subject = "";
@@ -182,16 +183,20 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: "Unknown email type" }, { status: 400 });
     }
 
-    const result = await resend.emails.send({ from: FROM_EMAIL, to, subject, html });
+    const [response] = await sgMail.send({
+      from: FROM_EMAIL,
+      to,
+      subject,
+      html,
+    });
 
-    if (result.error) {
-      console.error("[EMAIL ERROR]", result.error);
-      return NextResponse.json({ error: result.error.message }, { status: 500 });
-    }
-
-    return NextResponse.json({ success: true, id: result.data?.id });
+    return NextResponse.json({ success: true, statusCode: response.statusCode });
   } catch (err: any) {
-    console.error("[EMAIL ROUTE ERROR]", err);
-    return NextResponse.json({ error: err.message || "Internal server error" }, { status: 500 });
+    const sgError = err?.response?.body?.errors;
+    console.error("[EMAIL ROUTE ERROR]", sgError || err.message || err);
+    return NextResponse.json(
+      { error: sgError ? JSON.stringify(sgError) : err.message || "Internal server error" },
+      { status: 500 }
+    );
   }
 }
