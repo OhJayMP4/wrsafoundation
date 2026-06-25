@@ -11,6 +11,8 @@ env:
     secret: SENDGRID_API_KEY
   - variable: SENDGRID_FROM_EMAIL
     value: "marketing@saturnmanagement.co.za"
+  - variable: SENDGRID_FROM_NAME
+    value: "WRSA Foundation"
   - variable: ADMIN_EMAIL
     value: "marketing@saturnmanagement.co.za"
   - variable: NEXT_PUBLIC_APP_URL

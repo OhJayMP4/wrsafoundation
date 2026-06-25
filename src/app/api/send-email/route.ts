@@ -6,6 +6,7 @@ if (SENDGRID_API_KEY) sgMail.setApiKey(SENDGRID_API_KEY);
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "marketing@saturnmanagement.co.za";
 const FROM_EMAIL = process.env.SENDGRID_FROM_EMAIL || "marketing@saturnmanagement.co.za";
+const FROM_NAME = process.env.SENDGRID_FROM_NAME || "WRSA Foundation";
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
 const BANK_NAME = process.env.BANK_NAME || "Standard Bank";
@@ -184,7 +185,7 @@ export async function POST(req: NextRequest) {
     }
 
     const [response] = await sgMail.send({
-      from: FROM_EMAIL,
+      from: { email: FROM_EMAIL, name: FROM_NAME },
       to,
       subject,
       html,
