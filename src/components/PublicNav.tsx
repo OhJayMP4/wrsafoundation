@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
+import SupporterAccountMenu from "./SupporterAccountMenu";
+import { useSupporterAuth } from "@/context/SupporterAuthContext";
 
 const NAV_LINKS = [
   { label: "About", href: "/about" },
@@ -16,6 +18,7 @@ const NAV_LINKS = [
 export default function PublicNav() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const { supporter } = useSupporterAuth();
 
   if (pathname?.startsWith("/admin")) return null;
 
@@ -75,16 +78,21 @@ export default function PublicNav() {
           <Link href="/donate" className="btn-premium btn-accent" style={{ marginLeft: "0.5rem", fontSize: "0.8rem", minHeight: "38px", padding: "0.5rem 1.25rem" }}>
             Pledge Now
           </Link>
+          <div style={{ marginLeft: "0.75rem" }}>
+            <SupporterAccountMenu />
+          </div>
         </div>
 
-        {/* Mobile hamburger */}
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="nav-mobile-toggle"
-          style={{ background: "none", border: "none", color: "white", cursor: "pointer", padding: "0.5rem" }}
-        >
-          {menuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        {/* Mobile: account icon + hamburger */}
+        <div className="nav-mobile-toggle" style={{ display: "none", alignItems: "center", gap: "0.5rem" }}>
+          <SupporterAccountMenu />
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            style={{ background: "none", border: "none", color: "white", cursor: "pointer", padding: "0.5rem" }}
+          >
+            {menuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile drawer */}
@@ -100,6 +108,17 @@ export default function PublicNav() {
               {link.label}
             </Link>
           ))}
+
+          {supporter && (
+            <Link
+              href="/support-monthly/dashboard"
+              onClick={() => setMenuOpen(false)}
+              style={{ display: "block", padding: "0.875rem 0", color: "var(--accent)", fontWeight: 700, fontSize: "1rem", borderBottom: "1px solid rgba(255,255,255,0.06)", textDecoration: "none" }}
+            >
+              My Dashboard
+            </Link>
+          )}
+
           <Link href="/support-monthly" onClick={() => setMenuOpen(false)} className="btn-premium" style={{ display: "block", textAlign: "center", marginTop: "1.25rem", fontSize: "0.9rem", background: "transparent", border: "2px solid rgba(255,255,255,0.3)", color: "white" }}>
             Support Monthly
           </Link>
@@ -114,7 +133,7 @@ export default function PublicNav() {
         .nav-mobile-toggle { display: none; }
         @media (max-width: 768px) {
           .nav-desktop { display: none !important; }
-          .nav-mobile-toggle { display: block !important; }
+          .nav-mobile-toggle { display: flex !important; }
           .nav-inner { height: 72px !important; padding: 0 1.25rem !important; }
         }
       `}</style>
