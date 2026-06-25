@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import styles from "./admin.module.css";
-import { LayoutDashboard, Users, CreditCard, LogOut, Settings, Award, User } from "lucide-react";
+import { LayoutDashboard, Users, CreditCard, LogOut, Settings, Award, User, Trophy } from "lucide-react";
 import { RouteGuard } from "@/components/RouteGuard";
 import { useAuth } from "@/context/AuthContext";
 import { usePathname } from "next/navigation";
@@ -51,7 +51,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <Link href="/admin/donations" className={`${styles.navItem} ${isActive('/admin/donations') ? styles.navItemActive : ''}`}>
               <CreditCard size={20} /> Donations
             </Link>
-            
+            <Link href="/admin/honour-roll" className={`${styles.navItem} ${isActive('/admin/honour-roll') ? styles.navItemActive : ''}`}>
+              <Trophy size={20} /> Honour Roll
+            </Link>
+
             <Link href="/admin/settings" className={`${styles.navItem} ${isActive('/admin/settings') ? styles.navItemActive : ''}`} style={{ marginTop: 'auto' }}>
               <Settings size={20} /> Settings
             </Link>

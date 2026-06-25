@@ -7,7 +7,15 @@ import { useApp } from "@/context/AppContext";
 export default function LeaderboardPage() {
   const { donations, pledges, totalRaised, loading } = useApp();
 
-  const topDonors = [...donations].sort((a, b) => b.amount - a.amount).slice(0, 20);
+  const topDonors = [...donations]
+    .filter(d => d.visible !== false)
+    .sort((a, b) => {
+      if (a.order !== undefined && b.order !== undefined) return a.order - b.order;
+      if (a.order !== undefined) return -1;
+      if (b.order !== undefined) return 1;
+      return b.amount - a.amount;
+    })
+    .slice(0, 20);
   const deniedPledges = pledges.filter((p) => p.status === "denied");
 
   const rankIcon = (i: number) => {

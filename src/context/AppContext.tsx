@@ -34,6 +34,8 @@ export interface Donation {
   type: "Pledge Pay" | "General";
   method: string;
   pledgeId?: string;
+  order?: number;        // custom honour roll position (lower = higher)
+  visible?: boolean;     // false = hidden from public honour roll
 }
 
 export interface Activity {
@@ -53,6 +55,8 @@ interface AppContextType {
   markAsPaid: (pledgeId: string, amount: number) => Promise<void>;
   deletePledge: (pledgeId: string) => Promise<void>;
   editPledge: (pledgeId: string, updatedData: Partial<Pledge>) => Promise<void>;
+  updateDonation: (donationId: string, data: Partial<Donation>) => Promise<void>;
+  deleteDonation: (donationId: string) => Promise<void>;
   totalRaised: number;
   loading: boolean;
 }
@@ -267,6 +271,26 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const updateDonation = async (donationId: string, data: Partial<Donation>) => {
+    try {
+      const { doc, updateDoc } = await import("firebase/firestore");
+      await updateDoc(doc(db, "donations", donationId), data as any);
+    } catch (error) {
+      console.error("Error updating donation:", error);
+      throw error;
+    }
+  };
+
+  const deleteDonation = async (donationId: string) => {
+    try {
+      const { doc, deleteDoc } = await import("firebase/firestore");
+      await deleteDoc(doc(db, "donations", donationId));
+    } catch (error) {
+      console.error("Error deleting donation:", error);
+      throw error;
+    }
+  };
+
   const totalRaised = donations.reduce((sum, d) => sum + d.amount, 0);
 
   return (
@@ -280,6 +304,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       markAsPaid,
       deletePledge,
       editPledge,
+      updateDonation,
+      deleteDonation,
       totalRaised,
       loading,
     }}>
