@@ -23,7 +23,9 @@ type EmailType =
   | "pledge_invoice"        // pledger receives banking details after committing
   | "pledge_admin_notify"   // admin notified of new pledge
   | "nominee_challenge"     // nominee receives challenge invite
-  | "pledge_paid";          // pledger notified that admin confirmed payment
+  | "pledge_paid"           // pledger notified that admin confirmed payment
+  | "debit_order_confirmation" // supporter receives confirmation after setting up a debit order
+  | "debit_order_admin_notify"; // admin notified of a new debit order mandate
 
 interface EmailData {
   type: EmailType;
@@ -38,6 +40,9 @@ interface EmailData {
   nomineeEmail?: string;
   nomineeName?: string;
   organization?: string;
+  debitDay?: number;
+  commitmentMonths?: number;
+  applicantType?: "individual" | "business";
 }
 
 const BASE = `font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #1c2e24;`;
@@ -147,6 +152,49 @@ function buildPledgePaidEmail(data: EmailData): string {
   </div>`;
 }
 
+function buildDebitOrderConfirmationEmail(data: EmailData): string {
+  return `<div style="${BASE}">
+    ${header("Debit Order Submitted", "WRSA Foundation — Monthly Supporter Programme")}
+    <div style="${BODY}">
+      <p>Dear <strong>${data.pledgerName?.split(" ")[0]}</strong>,</p>
+      <p>Thank you for committing to support the WRSA Foundation as a monthly supporter. Here's a summary of your debit order mandate:</p>
+      <div style="background:white;border:2px solid #c5a059;border-radius:8px;padding:24px;margin:24px 0;">
+        <table style="width:100%;border-collapse:collapse;">
+          <tr><td style="padding:8px 0;color:#6b7280;width:160px;font-size:14px;">Monthly Amount</td><td style="padding:8px 0;font-weight:800;font-size:20px;color:#c5a059;">R${data.amount?.toLocaleString()}</td></tr>
+          <tr><td style="padding:8px 0;color:#6b7280;font-size:14px;">Debit Day</td><td style="padding:8px 0;font-weight:700;font-size:14px;">${data.debitDay}${data.debitDay === 1 ? "st" : "th"} of each month</td></tr>
+          <tr><td style="padding:8px 0;color:#6b7280;font-size:14px;">Commitment Period</td><td style="padding:8px 0;font-weight:700;font-size:14px;">${data.commitmentMonths} months</td></tr>
+        </table>
+      </div>
+      <p>Our team will review your mandate and confirm with you by email or phone before your first debit is processed. No money will be taken from your account until this confirmation has taken place.</p>
+      <p style="color:#6b7280;font-size:13px;margin-top:24px;">If you have any questions or need to make changes, please reply to this email.</p>
+    </div>
+    ${FOOTER}
+  </div>`;
+}
+
+function buildDebitOrderAdminNotifyEmail(data: EmailData): string {
+  return `<div style="${BASE}">
+    ${header("New Monthly Debit Order Mandate")}
+    <div style="${BODY}">
+      <p>A new monthly supporter has submitted a debit order mandate.</p>
+      <div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:24px;margin:16px 0;">
+        <table style="width:100%;border-collapse:collapse;">
+          <tr><td style="padding:8px 0;color:#6b7280;width:160px;">Name</td><td style="padding:8px 0;font-weight:700;">${data.pledgerName}</td></tr>
+          <tr><td style="padding:8px 0;color:#6b7280;">Type</td><td style="padding:8px 0;text-transform:capitalize;">${data.applicantType}</td></tr>
+          <tr><td style="padding:8px 0;color:#6b7280;">Email</td><td style="padding:8px 0;"><a href="mailto:${data.pledgerEmail}" style="color:#c5a059;">${data.pledgerEmail}</a></td></tr>
+          ${data.pledgerPhone ? `<tr><td style="padding:8px 0;color:#6b7280;">Phone</td><td style="padding:8px 0;">${data.pledgerPhone}</td></tr>` : ""}
+          <tr><td style="padding:8px 0;color:#6b7280;">Monthly Amount</td><td style="padding:8px 0;font-weight:800;font-size:18px;color:#c5a059;">R${data.amount?.toLocaleString()}</td></tr>
+          <tr><td style="padding:8px 0;color:#6b7280;">Debit Day</td><td style="padding:8px 0;">${data.debitDay}${data.debitDay === 1 ? "st" : "th"}</td></tr>
+          <tr><td style="padding:8px 0;color:#6b7280;">Commitment</td><td style="padding:8px 0;">${data.commitmentMonths} months</td></tr>
+        </table>
+      </div>
+      <a href="${APP_URL}/admin/debit-orders" style="display:inline-block;background:#1c2e24;color:#c5a059;padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:700;margin-top:8px;">Review in Admin Dashboard →</a>
+      <p style="color:#6b7280;font-size:13px;margin-top:16px;">Full banking details are available in the admin dashboard. Confirm with the supporter before activating this mandate.</p>
+    </div>
+    ${FOOTER}
+  </div>`;
+}
+
 export async function POST(req: NextRequest) {
   try {
     const data: EmailData = await req.json();
@@ -184,6 +232,18 @@ export async function POST(req: NextRequest) {
         subject = "Your WRSA Foundation payment has been confirmed";
         html = buildPledgePaidEmail(data);
         to = [data.pledgerEmail!];
+        break;
+
+      case "debit_order_confirmation":
+        subject = `Your Monthly Debit Order — R${data.amount?.toLocaleString()}/month`;
+        html = buildDebitOrderConfirmationEmail(data);
+        to = [data.pledgerEmail!];
+        break;
+
+      case "debit_order_admin_notify":
+        subject = `New Monthly Supporter: ${data.pledgerName} — R${data.amount?.toLocaleString()}/month`;
+        html = buildDebitOrderAdminNotifyEmail(data);
+        to = ADMIN_EMAILS;
         break;
 
       default:

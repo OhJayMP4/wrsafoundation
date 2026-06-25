@@ -3,6 +3,7 @@ import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import { AppProvider } from "@/context/AppContext";
 import { AuthProvider } from "@/context/AuthContext";
+import { SupporterAuthProvider } from "@/context/SupporterAuthContext";
 import ActivityTicker from "@/components/ActivityTicker";
 import PublicNav from "@/components/PublicNav";
 import PageLoader from "@/components/PageLoader";
@@ -33,15 +34,17 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
       <body>
         <AuthProvider>
-          <AppProvider>
-            <PageLoader />
-            {/* Ticker sits at the very top (fixed, z-index 600) */}
-            <ActivityTicker />
-            {/* Nav sits below the ticker (fixed, top: 40px, z-index 500) */}
-            <PublicNav />
-            {/* Shell applies correct padding and renders page + footer */}
-            <RootShell>{children}</RootShell>
-          </AppProvider>
+          <SupporterAuthProvider>
+            <AppProvider>
+              <PageLoader />
+              {/* Ticker sits at the very top (fixed, z-index 600) */}
+              <ActivityTicker />
+              {/* Nav sits below the ticker (fixed, top: 40px, z-index 500) */}
+              <PublicNav />
+              {/* Shell applies correct padding and renders page + footer */}
+              <RootShell>{children}</RootShell>
+            </AppProvider>
+          </SupporterAuthProvider>
         </AuthProvider>
       </body>
     </html>

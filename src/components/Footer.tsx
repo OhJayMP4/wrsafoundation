@@ -14,6 +14,7 @@ const NAV = [
 
 const CHAIN = [
   { label: "Make a Pledge", href: "/donate" },
+  { label: "Support Monthly", href: "/support-monthly" },
   { label: "Honour Roll", href: "/leaderboard" },
   { label: "Live Challenge Board", href: "/" },
 ];

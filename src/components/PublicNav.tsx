@@ -69,7 +69,10 @@ export default function PublicNav() {
               {link.label}
             </Link>
           ))}
-          <Link href="/donate" className="btn-premium btn-accent" style={{ marginLeft: "0.75rem", fontSize: "0.8rem", minHeight: "38px", padding: "0.5rem 1.25rem" }}>
+          <Link href="/support-monthly" className="btn-premium" style={{ marginLeft: "0.75rem", fontSize: "0.8rem", minHeight: "38px", padding: "0.5rem 1.25rem", background: "transparent", border: "2px solid rgba(255,255,255,0.3)", color: "white" }}>
+            Support Monthly
+          </Link>
+          <Link href="/donate" className="btn-premium btn-accent" style={{ marginLeft: "0.5rem", fontSize: "0.8rem", minHeight: "38px", padding: "0.5rem 1.25rem" }}>
             Pledge Now
           </Link>
         </div>
@@ -97,7 +100,10 @@ export default function PublicNav() {
               {link.label}
             </Link>
           ))}
-          <Link href="/donate" onClick={() => setMenuOpen(false)} className="btn-premium btn-accent" style={{ display: "block", textAlign: "center", marginTop: "1.25rem", fontSize: "0.9rem" }}>
+          <Link href="/support-monthly" onClick={() => setMenuOpen(false)} className="btn-premium" style={{ display: "block", textAlign: "center", marginTop: "1.25rem", fontSize: "0.9rem", background: "transparent", border: "2px solid rgba(255,255,255,0.3)", color: "white" }}>
+            Support Monthly
+          </Link>
+          <Link href="/donate" onClick={() => setMenuOpen(false)} className="btn-premium btn-accent" style={{ display: "block", textAlign: "center", marginTop: "0.75rem", fontSize: "0.9rem" }}>
             Pledge Now
           </Link>
         </div>
