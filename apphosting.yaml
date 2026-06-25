@@ -18,13 +18,15 @@ env:
   - variable: NEXT_PUBLIC_APP_URL
     value: "https://wrsafoundation--wrsafoundation.europe-west4.hosted.app"
   - variable: BANK_NAME
-    value: "Standard Bank"
+    value: "ABSA"
   - variable: BANK_ACCOUNT_NAME
     value: "WRSA Foundation NPC"
   - variable: BANK_ACCOUNT_NUMBER
-    value: "000 000 000"
+    value: "4103196934"
+  - variable: BANK_ACCOUNT_TYPE
+    value: "Classic Business Cheque Account"
   - variable: BANK_BRANCH_CODE
-    value: "051 001"
+    value: "632005"
 
 # Build settings
 scripts:

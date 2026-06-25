@@ -13,10 +13,11 @@ const FROM_EMAIL = process.env.SENDGRID_FROM_EMAIL || "foundation@wrsa.co.za";
 const FROM_NAME = process.env.SENDGRID_FROM_NAME || "WRSA Foundation";
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
-const BANK_NAME = process.env.BANK_NAME || "Standard Bank";
+const BANK_NAME = process.env.BANK_NAME || "ABSA";
 const BANK_ACCOUNT_NAME = process.env.BANK_ACCOUNT_NAME || "WRSA Foundation NPC";
-const BANK_ACCOUNT_NUMBER = process.env.BANK_ACCOUNT_NUMBER || "000 000 000";
-const BANK_BRANCH_CODE = process.env.BANK_BRANCH_CODE || "051 001";
+const BANK_ACCOUNT_NUMBER = process.env.BANK_ACCOUNT_NUMBER || "4103196934";
+const BANK_ACCOUNT_TYPE = process.env.BANK_ACCOUNT_TYPE || "Classic Business Cheque Account";
+const BANK_BRANCH_CODE = process.env.BANK_BRANCH_CODE || "632005";
 
 type EmailType =
   | "pledge_invoice"        // pledger receives banking details after committing
@@ -60,6 +61,7 @@ function bankingBlock(pledgeId?: string, amount?: number) {
         <tr><td style="padding:8px 0;color:#6b7280;width:160px;font-size:14px;">Bank</td><td style="padding:8px 0;font-weight:700;font-size:14px;">${BANK_NAME}</td></tr>
         <tr><td style="padding:8px 0;color:#6b7280;font-size:14px;">Account Name</td><td style="padding:8px 0;font-weight:700;font-size:14px;">${BANK_ACCOUNT_NAME}</td></tr>
         <tr><td style="padding:8px 0;color:#6b7280;font-size:14px;">Account Number</td><td style="padding:8px 0;font-weight:700;font-size:14px;">${BANK_ACCOUNT_NUMBER}</td></tr>
+        <tr><td style="padding:8px 0;color:#6b7280;font-size:14px;">Account Type</td><td style="padding:8px 0;font-weight:700;font-size:14px;">${BANK_ACCOUNT_TYPE}</td></tr>
         <tr><td style="padding:8px 0;color:#6b7280;font-size:14px;">Branch Code</td><td style="padding:8px 0;font-weight:700;font-size:14px;">${BANK_BRANCH_CODE}</td></tr>
         <tr style="border-top:1px solid #e5e7eb;">
           <td style="padding:12px 0 8px;color:#6b7280;font-size:14px;">Amount</td>
