@@ -7,6 +7,22 @@ env:
     secret: FIREBASE_PRIVATE_KEY
   - variable: FIREBASE_CLIENT_EMAIL
     secret: FIREBASE_CLIENT_EMAIL
+  - variable: SENDGRID_API_KEY
+    secret: SENDGRID_API_KEY
+  - variable: SENDGRID_FROM_EMAIL
+    value: "marketing@saturnmanagement.co.za"
+  - variable: ADMIN_EMAIL
+    value: "marketing@saturnmanagement.co.za"
+  - variable: NEXT_PUBLIC_APP_URL
+    value: "https://wrsafoundation--wrsafoundation.europe-west4.hosted.app"
+  - variable: BANK_NAME
+    value: "Standard Bank"
+  - variable: BANK_ACCOUNT_NAME
+    value: "WRSA Foundation NPC"
+  - variable: BANK_ACCOUNT_NUMBER
+    value: "000 000 000"
+  - variable: BANK_BRANCH_CODE
+    value: "051 001"
 
 # Build settings
 scripts:
