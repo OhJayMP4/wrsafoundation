@@ -10,7 +10,7 @@ env:
   - variable: SENDGRID_API_KEY
     secret: SENDGRID_API_KEY
   - variable: SENDGRID_FROM_EMAIL
-    value: "foundation@wrsa.co.za"
+    value: "info@saturnmanagement.co.za"
   - variable: SENDGRID_FROM_NAME
     value: "WRSA Foundation"
   - variable: ADMIN_EMAIL
