@@ -190,9 +190,9 @@ a { color: inherit; text-decoration: none; }
   transform: translateY(-3px);
 }
 
-/* ── Mobile shell padding (ticker 40px + taller nav 72px) ── */
+/* ── Mobile shell padding (taller nav 72px; ticker hidden for now) ── */
 @media (max-width: 768px) {
-  .public-shell { padding-top: 112px !important; }
+  .public-shell { padding-top: 72px !important; }
 }
 
 /* ── Global mobile baseline ── */

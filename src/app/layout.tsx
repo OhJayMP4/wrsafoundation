@@ -4,7 +4,6 @@ import "./globals.css";
 import { AppProvider } from "@/context/AppContext";
 import { AuthProvider } from "@/context/AuthContext";
 import { SupporterAuthProvider } from "@/context/SupporterAuthContext";
-import ActivityTicker from "@/components/ActivityTicker";
 import PublicNav from "@/components/PublicNav";
 import PageLoader from "@/components/PageLoader";
 import RootShell from "@/components/RootShell";
@@ -37,9 +36,8 @@ export default function RootLayout({
           <SupporterAuthProvider>
             <AppProvider>
               <PageLoader />
-              {/* Ticker sits at the very top (fixed, z-index 600) */}
-              <ActivityTicker />
-              {/* Nav sits below the ticker (fixed, top: 40px, z-index 500) */}
+              {/* ActivityTicker hidden for now — re-add <ActivityTicker /> above PublicNav to restore,
+                  and revert the top/padding offsets in PublicNav.tsx, RootShell.tsx, globals.css */}
               <PublicNav />
               {/* Shell applies correct padding and renders page + footer */}
               <RootShell>{children}</RootShell>

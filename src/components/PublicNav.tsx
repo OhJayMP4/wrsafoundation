@@ -27,7 +27,7 @@ export default function PublicNav() {
   return (
     <nav style={{
       position: "fixed",
-      top: "40px",
+      top: 0,
       left: 0,
       right: 0,
       zIndex: 500,
