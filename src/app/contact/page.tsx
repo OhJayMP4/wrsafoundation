@@ -81,8 +81,8 @@ export default function ContactPage() {
             <div className="glass-card" style={{ padding: "1.75rem" }}>
               <h2 style={{ fontSize: "1.1rem", marginBottom: "1.25rem" }}>Contact Details</h2>
               {[
-                { icon: <Mail size={18} />, label: "Email", value: "info@wrsafoundation.co.za", href: "mailto:info@wrsafoundation.co.za" },
-                { icon: <Phone size={18} />, label: "Phone", value: "+27 (0)12 000 0000", href: "tel:+27120000000" },
+                { icon: <Mail size={18} />, label: "Email", value: "foundation@wrsa.co.za", href: "mailto:foundation@wrsa.co.za" },
+                { icon: <Phone size={18} />, label: "Phone", value: "+27 76 908 6458", href: "tel:+27769086458" },
                 { icon: <MapPin size={18} />, label: "Location", value: "Pretoria, South Africa", href: undefined },
               ].map((item) => (
                 <div key={item.label} style={{ display: "flex", gap: "1rem", alignItems: "flex-start", marginBottom: "1.25rem" }}>

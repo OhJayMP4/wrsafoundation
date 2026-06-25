@@ -7,7 +7,7 @@ import { db } from "@/lib/firebase";
 import { useSupporterAuth } from "@/context/SupporterAuthContext";
 import { SupporterRouteGuard } from "@/components/SupporterRouteGuard";
 import { DebitOrder } from "@/types/debitOrder";
-import { CalendarCheck, LogOut, Clock, CheckCircle2, XCircle, Banknote } from "lucide-react";
+import { CalendarCheck, LogOut, Clock, CheckCircle2, XCircle, Banknote, Mail, Phone, HelpCircle } from "lucide-react";
 
 function statusBadge(status: DebitOrder["status"]) {
   const map: Record<DebitOrder["status"], { bg: string; color: string; label: string; icon: React.ReactNode }> = {
@@ -104,6 +104,26 @@ function DashboardContent() {
               Our team is reviewing your mandate and will confirm by email before your first debit is processed.
             </div>
           )}
+        </div>
+      )}
+
+      {order && (
+        <div className="glass-card" style={{ padding: "2rem", marginTop: "1.5rem" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "0.75rem" }}>
+            <HelpCircle size={20} color="var(--accent)" />
+            <h3 style={{ fontSize: "1.1rem", margin: 0 }}>Need to Make Changes?</h3>
+          </div>
+          <p style={{ opacity: 0.65, lineHeight: 1.7, fontSize: "0.9rem", marginBottom: "1.5rem" }}>
+            If you'd like to cancel your debit order, change your monthly amount, or have any questions or concerns, please contact the WRSA Foundation directly — our team is happy to help.
+          </p>
+          <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+            <a href="mailto:foundation@wrsa.co.za" className="btn-premium btn-primary" style={{ fontSize: "0.85rem", minHeight: "44px", padding: "0.75rem 1.5rem" }}>
+              <Mail size={15} /> foundation@wrsa.co.za
+            </a>
+            <a href="tel:+27769086458" className="btn-premium" style={{ fontSize: "0.85rem", minHeight: "44px", padding: "0.75rem 1.5rem", border: "2px solid rgba(28,46,36,0.15)", background: "transparent", color: "var(--primary)" }}>
+              <Phone size={15} /> +27 76 908 6458
+            </a>
+          </div>
         </div>
       )}
     </div>

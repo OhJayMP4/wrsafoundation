@@ -154,13 +154,13 @@ export default function Footer() {
         <div>
           <h4 style={{ color: "var(--accent)", fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "1.25rem" }}>Contact</h4>
           <div style={{ display: "flex", flexDirection: "column", gap: "0.875rem" }}>
-            <a href="mailto:info@wrsafoundation.co.za" className="footer-link" style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            <a href="mailto:foundation@wrsa.co.za" className="footer-link" style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
               <Mail size={13} style={{ color: "var(--accent)", flexShrink: 0 }} />
-              info@wrsafoundation.co.za
+              foundation@wrsa.co.za
             </a>
-            <a href="tel:+27120000000" className="footer-link" style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            <a href="tel:+27769086458" className="footer-link" style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
               <Phone size={13} style={{ color: "var(--accent)", flexShrink: 0 }} />
-              +27 (0)12 000 0000
+              +27 76 908 6458
             </a>
             <p style={{ color: "rgba(255,255,255,0.35)", fontSize: "0.8rem", marginTop: "0.25rem" }}>
               Pretoria, South Africa
