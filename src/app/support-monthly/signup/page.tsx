@@ -1,15 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { UserPlus, ArrowRight } from "lucide-react";
 import { useSupporterAuth } from "@/context/SupporterAuthContext";
 import styles from "../../donate/donate.module.css";
 
-export default function SupporterSignupPage() {
+function SignupForm() {
   const { signUp } = useSupporterAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const next = searchParams.get("next") || "/support-monthly/setup";
 
   const [formData, setFormData] = useState({ name: "", email: "", password: "", confirmPassword: "" });
   const [error, setError] = useState("");
@@ -31,7 +33,7 @@ export default function SupporterSignupPage() {
     setLoading(true);
     try {
       await signUp(formData.name, formData.email, formData.password);
-      router.push("/support-monthly/setup");
+      router.push(next);
     } catch (err: any) {
       setError(err.message?.includes("email-already-in-use")
         ? "An account already exists with this email. Try logging in instead."
@@ -45,7 +47,7 @@ export default function SupporterSignupPage() {
     <div className={styles.container} style={{ maxWidth: "520px" }}>
       <div className={styles.header}>
         <h1 className={styles.title}>Create Your <span className="text-accent">Account</span></h1>
-        <p>Set up your supporter account to manage your monthly debit order.</p>
+        <p>A free account lets you make pledges, accept challenges, and set up monthly support — all tracked in one dashboard.</p>
       </div>
 
       <div className={`${styles.formCard} glass-card`}>
@@ -77,9 +79,17 @@ export default function SupporterSignupPage() {
         </form>
 
         <p style={{ textAlign: "center", marginTop: "1.5rem", fontSize: "0.9rem", opacity: 0.7 }}>
-          Already have an account? <Link href="/support-monthly/login" style={{ color: "var(--accent)", fontWeight: 700 }}>Log in</Link>
+          Already have an account? <Link href={`/support-monthly/login?next=${encodeURIComponent(next)}`} style={{ color: "var(--accent)", fontWeight: 700 }}>Log in</Link>
         </p>
       </div>
     </div>
+  );
+}
+
+export default function SupporterSignupPage() {
+  return (
+    <Suspense fallback={<div style={{ minHeight: "60vh", display: "flex", alignItems: "center", justifyContent: "center" }}>Loading...</div>}>
+      <SignupForm />
+    </Suspense>
   );
 }

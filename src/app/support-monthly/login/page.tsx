@@ -1,15 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { LogIn, ArrowRight } from "lucide-react";
 import { useSupporterAuth } from "@/context/SupporterAuthContext";
 import styles from "../../donate/donate.module.css";
 
-export default function SupporterLoginPage() {
+function LoginForm() {
   const { logIn } = useSupporterAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const next = searchParams.get("next") || "/support-monthly/dashboard";
 
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
@@ -21,7 +23,7 @@ export default function SupporterLoginPage() {
     setLoading(true);
     try {
       await logIn(formData.email, formData.password);
-      router.push("/support-monthly/dashboard");
+      router.push(next);
     } catch {
       setError("Incorrect email or password. Please try again.");
     } finally {
@@ -33,7 +35,7 @@ export default function SupporterLoginPage() {
     <div className={styles.container} style={{ maxWidth: "480px" }}>
       <div className={styles.header}>
         <h1 className={styles.title}>Welcome <span className="text-accent">Back</span></h1>
-        <p>Log in to manage your monthly debit order.</p>
+        <p>Log in to continue — your account lets you manage pledges, challenges, and monthly support in one place.</p>
       </div>
 
       <div className={`${styles.formCard} glass-card`}>
@@ -61,9 +63,17 @@ export default function SupporterLoginPage() {
         </form>
 
         <p style={{ textAlign: "center", marginTop: "1.5rem", fontSize: "0.9rem", opacity: 0.7 }}>
-          Don't have an account? <Link href="/support-monthly/signup" style={{ color: "var(--accent)", fontWeight: 700 }}>Sign up</Link>
+          Don't have an account? <Link href={`/support-monthly/signup?next=${encodeURIComponent(next)}`} style={{ color: "var(--accent)", fontWeight: 700 }}>Sign up</Link>
         </p>
       </div>
     </div>
+  );
+}
+
+export default function SupporterLoginPage() {
+  return (
+    <Suspense fallback={<div style={{ minHeight: "60vh", display: "flex", alignItems: "center", justifyContent: "center" }}>Loading...</div>}>
+      <LoginForm />
+    </Suspense>
   );
 }

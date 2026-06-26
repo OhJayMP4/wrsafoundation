@@ -2,12 +2,13 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { useSupporterAuth } from "@/context/SupporterAuthContext";
 import { SupporterRouteGuard } from "@/components/SupporterRouteGuard";
 import { DebitOrder } from "@/types/debitOrder";
-import { CalendarCheck, LogOut, Clock, CheckCircle2, XCircle, Banknote, Mail, Phone, HelpCircle } from "lucide-react";
+import { Pledge } from "@/context/AppContext";
+import { CalendarCheck, LogOut, Clock, CheckCircle2, XCircle, Banknote, Mail, Phone, HelpCircle, Flame, Award } from "lucide-react";
 
 function statusBadge(status: DebitOrder["status"]) {
   const map: Record<DebitOrder["status"], { bg: string; color: string; label: string; icon: React.ReactNode }> = {
@@ -24,19 +25,44 @@ function statusBadge(status: DebitOrder["status"]) {
   );
 }
 
+function pledgeStatusBadge(status: Pledge["status"]) {
+  const map: Record<Pledge["status"], { bg: string; color: string; label: string }> = {
+    pending: { bg: "#fef3c7", color: "#92400e", label: "Awaiting Your Response" },
+    awaiting_payment: { bg: "#ffedd5", color: "#9a3412", label: "Awaiting Payment" },
+    completed: { bg: "#dcfce7", color: "#166534", label: "Paid" },
+    overdue: { bg: "#fee2e2", color: "#991b1b", label: "Overdue" },
+    denied: { bg: "#f3f4f6", color: "#6b7280", label: "Declined" },
+  };
+  const s = map[status];
+  return (
+    <span style={{ display: "inline-flex", alignItems: "center", background: s.bg, color: s.color, padding: "0.3rem 0.75rem", borderRadius: "999px", fontSize: "0.72rem", fontWeight: 700, flexShrink: 0 }}>
+      {s.label}
+    </span>
+  );
+}
+
 function DashboardContent() {
   const { supporter, logOut } = useSupporterAuth();
   const [order, setOrder] = useState<DebitOrder | null>(null);
+  const [pledges, setPledges] = useState<Pledge[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchOrder() {
+    async function fetchData() {
       if (!supporter) return;
-      const snap = await getDoc(doc(db, "debitOrders", supporter.uid));
-      if (snap.exists()) setOrder({ id: snap.id, ...snap.data() } as DebitOrder);
+
+      const orderSnap = await getDoc(doc(db, "debitOrders", supporter.uid));
+      if (orderSnap.exists()) setOrder({ id: orderSnap.id, ...orderSnap.data() } as DebitOrder);
+
+      const pledgesQuery = query(collection(db, "pledges"), where("userId", "==", supporter.uid));
+      const pledgesSnap = await getDocs(pledgesQuery);
+      const pledgeList = pledgesSnap.docs.map((d) => ({ id: d.id, ...d.data() })) as Pledge[];
+      pledgeList.sort((a, b) => (b.dateChallenged || "").localeCompare(a.dateChallenged || ""));
+      setPledges(pledgeList);
+
       setLoading(false);
     }
-    fetchOrder();
+    fetchData();
   }, [supporter]);
 
   if (loading) {
@@ -57,8 +83,9 @@ function DashboardContent() {
         </button>
       </div>
 
+      {/* ── Debit order ── */}
       {!order ? (
-        <div className="glass-card" style={{ padding: "3rem", textAlign: "center" }}>
+        <div className="glass-card" style={{ padding: "3rem", textAlign: "center", marginBottom: "1.5rem" }}>
           <Banknote size={40} color="var(--accent)" style={{ margin: "0 auto 1.25rem" }} />
           <h2 style={{ fontSize: "1.4rem", marginBottom: "0.75rem" }}>No Debit Order Set Up Yet</h2>
           <p style={{ opacity: 0.6, marginBottom: "2rem", lineHeight: 1.7 }}>
@@ -67,7 +94,7 @@ function DashboardContent() {
           <Link href="/support-monthly/setup" className="btn-premium btn-accent">Set Up My Debit Order</Link>
         </div>
       ) : (
-        <div className="glass-card" style={{ padding: "2.5rem" }}>
+        <div className="glass-card" style={{ padding: "2.5rem", marginBottom: "1.5rem" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2rem", flexWrap: "wrap", gap: "1rem" }}>
             <h2 style={{ fontSize: "1.3rem", margin: 0 }}>Your Debit Order</h2>
             {statusBadge(order.status)}
@@ -107,25 +134,56 @@ function DashboardContent() {
         </div>
       )}
 
-      {order && (
-        <div className="glass-card" style={{ padding: "2rem", marginTop: "1.5rem" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "0.75rem" }}>
-            <HelpCircle size={20} color="var(--accent)" />
-            <h3 style={{ fontSize: "1.1rem", margin: 0 }}>Need to Make Changes?</h3>
-          </div>
-          <p style={{ opacity: 0.65, lineHeight: 1.7, fontSize: "0.9rem", marginBottom: "1.5rem" }}>
-            If you'd like to cancel your debit order, change your monthly amount, or have any questions or concerns, please contact the WRSA Foundation directly — our team is happy to help.
-          </p>
-          <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-            <a href="mailto:foundation@wrsa.co.za" className="btn-premium btn-primary" style={{ fontSize: "0.85rem", minHeight: "44px", padding: "0.75rem 1.5rem" }}>
-              <Mail size={15} /> foundation@wrsa.co.za
-            </a>
-            <a href="tel:+27769086458" className="btn-premium" style={{ fontSize: "0.85rem", minHeight: "44px", padding: "0.75rem 1.5rem", border: "2px solid rgba(28,46,36,0.15)", background: "transparent", color: "var(--primary)" }}>
-              <Phone size={15} /> +27 76 908 6458
-            </a>
-          </div>
+      {/* ── Pledge & challenge history ── */}
+      <div className="glass-card" style={{ padding: "2.5rem", marginBottom: "1.5rem" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "1.5rem" }}>
+          <Flame size={20} color="var(--accent)" />
+          <h2 style={{ fontSize: "1.3rem", margin: 0 }}>Your Pledges & Challenges</h2>
         </div>
-      )}
+
+        {pledges.length === 0 ? (
+          <div style={{ textAlign: "center", padding: "2rem 0" }}>
+            <Award size={36} color="var(--accent)" style={{ margin: "0 auto 1rem", opacity: 0.5 }} />
+            <p style={{ opacity: 0.6, marginBottom: "1.5rem", lineHeight: 1.7 }}>
+              You haven't made a pledge or accepted a challenge yet.
+            </p>
+            <Link href="/donate" className="btn-premium btn-accent">Make a Pledge</Link>
+          </div>
+        ) : (
+          <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+            {pledges.map((p) => (
+              <div key={p.id} style={{ background: "#faf8f4", borderRadius: "var(--radius-sm)", padding: "1.25rem 1.5rem", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>
+                <div>
+                  <div style={{ fontWeight: 700, marginBottom: "0.2rem" }}>R{p.amount.toLocaleString()}</div>
+                  <div style={{ fontSize: "0.8rem", opacity: 0.55 }}>
+                    {p.challengedBy === "Direct Donation" ? "Direct Pledge" : `Challenged by ${p.challengedBy}`} · {p.dateChallenged}
+                  </div>
+                </div>
+                {pledgeStatusBadge(p.status)}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* ── Contact / help ── */}
+      <div className="glass-card" style={{ padding: "2rem" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "0.75rem" }}>
+          <HelpCircle size={20} color="var(--accent)" />
+          <h3 style={{ fontSize: "1.1rem", margin: 0 }}>Need to Make Changes?</h3>
+        </div>
+        <p style={{ opacity: 0.65, lineHeight: 1.7, fontSize: "0.9rem", marginBottom: "1.5rem" }}>
+          If you'd like to cancel your debit order, change a pledge, or have any questions or concerns, please contact the WRSA Foundation directly — our team is happy to help.
+        </p>
+        <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+          <a href="mailto:foundation@wrsa.co.za" className="btn-premium btn-primary" style={{ fontSize: "0.85rem", minHeight: "44px", padding: "0.75rem 1.5rem" }}>
+            <Mail size={15} /> foundation@wrsa.co.za
+          </a>
+          <a href="tel:+27769086458" className="btn-premium" style={{ fontSize: "0.85rem", minHeight: "44px", padding: "0.75rem 1.5rem", border: "2px solid rgba(28,46,36,0.15)", background: "transparent", color: "var(--primary)" }}>
+            <Phone size={15} /> +27 76 908 6458
+          </a>
+        </div>
+      </div>
     </div>
   );
 }

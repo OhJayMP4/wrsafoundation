@@ -1,18 +1,19 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useSupporterAuth } from "@/context/SupporterAuthContext";
 
 export function SupporterRouteGuard({ children }: { children: React.ReactNode }) {
   const { supporter, loading } = useSupporterAuth();
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     if (!loading && !supporter) {
-      router.push("/support-monthly/login");
+      router.push(`/support-monthly/login?next=${encodeURIComponent(pathname)}`);
     }
-  }, [supporter, loading, router]);
+  }, [supporter, loading, router, pathname]);
 
   if (loading) {
     return (

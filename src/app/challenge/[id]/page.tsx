@@ -99,22 +99,22 @@ export default function ChallengePage() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--primary)', color: 'white', padding: '4rem 2rem' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--background)', color: 'var(--foreground)', padding: '4rem 2rem' }}>
       <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-        
+
         <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.1)', padding: '0.5rem 1rem', borderRadius: '999px', fontSize: '0.875rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--accent)', marginBottom: '2rem' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(197,160,89,0.1)', padding: '0.5rem 1rem', borderRadius: '999px', fontSize: '0.875rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--accent)', marginBottom: '2rem' }}>
             <Flame size={16} /> Official Nomination
           </div>
           <h1 style={{ fontSize: '3rem', fontWeight: 800, lineHeight: 1.1, marginBottom: '1rem' }}>
             Welcome, <span className="text-accent">{pledge.fullName.split(' ')[0]}</span>.
           </h1>
-          <p style={{ fontSize: '1.25rem', opacity: 0.7, maxWidth: '600px', margin: '0 auto' }}>
+          <p style={{ fontSize: '1.25rem', opacity: 0.65, maxWidth: '600px', margin: '0 auto' }}>
             <strong>{pledge.challengedBy}</strong> has cemented their legacy in wildlife conservation and formally nominated you to match their commitment.
           </p>
         </div>
 
-        <div className="glass-card" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', padding: '3rem', borderRadius: '24px', textAlign: 'center', marginBottom: '3rem' }}>
+        <div className="glass-card" style={{ padding: '3rem', borderRadius: '24px', textAlign: 'center', marginBottom: '3rem' }}>
           <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.5rem' }}>The Challenge</h2>
           <div style={{ fontSize: '4rem', fontWeight: 900, fontFamily: 'var(--font-heading)', color: 'var(--accent)', lineHeight: 1, marginBottom: '1rem' }}>
             R{pledge.amount.toLocaleString()}
@@ -124,26 +124,26 @@ export default function ChallengePage() {
           </p>
 
           <div style={{ display: 'flex', gap: '1rem', flexDirection: 'column', maxWidth: '400px', margin: '0 auto' }}>
-            <button 
+            <button
               onClick={handleAccept}
               disabled={isProcessing}
-              className="btn-premium btn-accent" 
+              className="btn-premium btn-accent"
               style={{ padding: '1.25rem', fontSize: '1.125rem', display: 'flex', justifyContent: 'center' }}
             >
               Accept Challenge <ArrowRight size={20} className="ml-2" />
             </button>
-            <button 
+            <button
               onClick={handleDeny}
               disabled={isProcessing}
-              className="btn-premium" 
-              style={{ padding: '1.25rem', fontSize: '1.125rem', border: '1px solid rgba(255,255,255,0.2)', backgroundColor: 'transparent', color: 'rgba(255,255,255,0.6)' }}
+              className="btn-premium"
+              style={{ padding: '1.25rem', fontSize: '1.125rem', border: '2px solid rgba(28,46,36,0.15)', backgroundColor: 'transparent', color: 'var(--foreground)', opacity: 0.6 }}
             >
               {isProcessing ? "Processing..." : "Deny Nomination"}
             </button>
           </div>
         </div>
 
-        <p style={{ textAlign: 'center', opacity: 0.4, fontSize: '0.875rem' }}>
+        <p style={{ textAlign: 'center', opacity: 0.45, fontSize: '0.875rem' }}>
           *Denying this nomination will publicize the declined state on the leaderboard for 48 hours.
         </p>
 

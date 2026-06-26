@@ -24,6 +24,7 @@ export interface Pledge {
   nomineeEmail?: string;
   pledgerEmail?: string;
   pledgerPhone?: string;
+  userId?: string; // Firebase Auth UID of the pledger's supporter account, if logged in
 }
 
 export interface Donation {

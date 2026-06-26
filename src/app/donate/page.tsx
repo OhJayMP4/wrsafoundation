@@ -1,11 +1,13 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, useEffect, Suspense } from "react";
 import styles from "./donate.module.css";
 import { ArrowLeft, ArrowRight, Share2, UserPlus, CheckCircle2, Copy, Check, Mail } from "lucide-react";
 import Link from "next/link";
 import { useApp } from "@/context/AppContext";
 import { useRouter } from "next/navigation";
+import { useSupporterAuth } from "@/context/SupporterAuthContext";
+import { SupporterRouteGuard } from "@/components/SupporterRouteGuard";
 
 const AMOUNTS = [
   { label: "R5,000", value: 5000 },
@@ -18,6 +20,7 @@ type Step = 1 | 2 | 3;
 
 function DonateForm() {
   const { addPledge } = useApp();
+  const { supporter } = useSupporterAuth();
   const router = useRouter();
 
   const [step, setStep] = useState<Step>(1);
@@ -31,6 +34,17 @@ function DonateForm() {
     organization: "",
     message: "",
   });
+
+  // Prefill from the logged-in supporter account once it loads
+  useEffect(() => {
+    if (supporter) {
+      setPledgerData((prev) => ({
+        ...prev,
+        name: prev.name || supporter.displayName || "",
+        email: prev.email || supporter.email || "",
+      }));
+    }
+  }, [supporter]);
 
   const [nomineeData, setNomineeData] = useState({
     name: "",
@@ -64,6 +78,7 @@ function DonateForm() {
           pledgerEmail: pledgerData.email,
           pledgerPhone: pledgerData.phone || undefined,
           nomineeEmail: undefined,
+          userId: supporter?.uid,
         },
         "awaiting_payment"
       );
@@ -418,8 +433,10 @@ function DonateForm() {
 
 export default function DonatePage() {
   return (
-    <Suspense fallback={<div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>Loading...</div>}>
-      <DonateForm />
-    </Suspense>
+    <SupporterRouteGuard>
+      <Suspense fallback={<div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>Loading...</div>}>
+        <DonateForm />
+      </Suspense>
+    </SupporterRouteGuard>
   );
 }

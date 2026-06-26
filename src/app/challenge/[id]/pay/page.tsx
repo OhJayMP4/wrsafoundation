@@ -8,11 +8,14 @@ import { ArrowLeft, Flame, Mail, Phone, MessageSquare, CheckCircle2 } from "luci
 import Link from "next/link";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { useSupporterAuth } from "@/context/SupporterAuthContext";
+import { SupporterRouteGuard } from "@/components/SupporterRouteGuard";
 
-export default function ChallengePayPage() {
+function ChallengePayContent() {
   const { id } = useParams();
   const router = useRouter();
   const { updatePledgeStatus } = useApp();
+  const { supporter } = useSupporterAuth();
 
   const [pledge, setPledge] = useState<Pledge | null>(null);
   const [loading, setLoading] = useState(true);
@@ -21,6 +24,13 @@ export default function ChallengePayPage() {
   const [formData, setFormData] = useState({ email: "", phone: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  // Prefill from the logged-in supporter account
+  useEffect(() => {
+    if (supporter) {
+      setFormData((prev) => ({ ...prev, email: prev.email || supporter.email || "" }));
+    }
+  }, [supporter]);
 
   useEffect(() => {
     async function fetchPledge() {
@@ -55,6 +65,7 @@ export default function ChallengePayPage() {
         pledgerEmail: formData.email,
         pledgerPhone: formData.phone || null,
         amount: Number(amount),
+        userId: supporter?.uid || null,
       });
 
       // 2. Send notification email to admin
@@ -275,5 +286,13 @@ export default function ChallengePayPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ChallengePayPage() {
+  return (
+    <SupporterRouteGuard>
+      <ChallengePayContent />
+    </SupporterRouteGuard>
   );
 }
