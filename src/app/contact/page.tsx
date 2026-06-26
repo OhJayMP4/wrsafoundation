@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Mail, Phone, MapPin, CheckCircle2 } from "lucide-react";
+import PageHero from "@/components/PageHero";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
@@ -63,15 +64,15 @@ export default function ContactPage() {
         }
       `}</style>
 
-      <div style={{ background: "var(--primary)", color: "white", padding: "5rem 1.25rem 6rem" }}>
-        <div style={{ maxWidth: "860px", margin: "0 auto" }}>
+      <PageHero image="/contact-hero.jpg">
+        <div style={{ maxWidth: "860px", margin: "0 auto", padding: "5rem 1.25rem 6rem", color: "white" }}>
           <p style={{ color: "var(--accent)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", fontSize: "0.8rem", marginBottom: "1rem" }}>Get in Touch</p>
           <h1 style={{ color: "white", fontSize: "clamp(2rem,5vw,3.5rem)", marginBottom: "1.25rem" }}>Contact the WRSA Foundation</h1>
           <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "1.05rem", lineHeight: 1.75, maxWidth: "560px" }}>
             Whether you have a question about the pledge chain, need payment confirmation, or want to discuss a partnership, we're here to help.
           </p>
         </div>
-      </div>
+      </PageHero>
 
       <div style={{ maxWidth: "860px", margin: "0 auto", padding: "4rem 1.25rem 6rem" }}>
         <div className="contact-grid">

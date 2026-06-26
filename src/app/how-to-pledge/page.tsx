@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, UserPlus, Banknote, Award, Share2 } from "lucide-react";
 import FadeIn from "@/components/FadeIn";
+import PageHero from "@/components/PageHero";
 
 const STEPS = [
   {
@@ -33,15 +34,15 @@ export default function HowToPledgePage() {
   return (
     <div style={{ background: "var(--background)", minHeight: "100vh" }}>
 
-      <div style={{ background: "var(--primary)", color: "white", padding: "5rem 2rem 6rem" }}>
-        <div style={{ maxWidth: "860px", margin: "0 auto" }}>
+      <PageHero image="/how-to-pledge-hero.jpg">
+        <div style={{ maxWidth: "860px", margin: "0 auto", padding: "5rem 2rem 6rem", color: "white" }}>
           <p style={{ color: "var(--accent)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", fontSize: "0.8rem", marginBottom: "1rem" }}>The Process</p>
           <h1 style={{ color: "white", fontSize: "clamp(2rem,5vw,3.5rem)", marginBottom: "1.5rem" }}>How the Pledge Chain Works</h1>
           <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "1.05rem", lineHeight: 1.8, maxWidth: "580px" }}>
             The Wildlife Pledge Chain is a peer-to-peer commitment mechanism. Each link in the chain is a person in the industry who has pledged their support and nominated the next leader to follow.
           </p>
         </div>
-      </div>
+      </PageHero>
 
       <div style={{ maxWidth: "860px", margin: "0 auto", padding: "4rem 1.25rem 5rem" }}>
 

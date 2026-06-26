@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import PageHero from "@/components/PageHero";
 
 const FAQS = [
   {
@@ -82,15 +83,15 @@ function FAQItem({ q, a }: { q: string; a: string }) {
 export default function FAQPage() {
   return (
     <div style={{ background: "var(--background)", minHeight: "100vh" }}>
-      <div style={{ background: "var(--primary)", color: "white", padding: "5rem 2rem 6rem" }}>
-        <div style={{ maxWidth: "760px", margin: "0 auto" }}>
+      <PageHero image="/faq-hero.jpg">
+        <div style={{ maxWidth: "760px", margin: "0 auto", padding: "5rem 2rem 6rem", color: "white" }}>
           <p style={{ color: "var(--accent)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", fontSize: "0.8rem", marginBottom: "1rem" }}>Questions & Answers</p>
           <h1 style={{ color: "white", fontSize: "clamp(2.2rem,5vw,3.5rem)", marginBottom: "1.25rem" }}>Frequently Asked Questions</h1>
           <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "1.05rem", lineHeight: 1.75 }}>
             Everything you need to know about the Wildlife Pledge Chain and how your contribution makes a difference.
           </p>
         </div>
-      </div>
+      </PageHero>
 
       <div style={{ maxWidth: "760px", margin: "0 auto", padding: "4rem 2rem 6rem" }}>
         <div className="glass-card" style={{ padding: "1rem 2.5rem" }}>

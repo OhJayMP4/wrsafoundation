@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ArrowLeft, Trophy, Medal, Star } from "lucide-react";
 import { useApp } from "@/context/AppContext";
+import PageHero from "@/components/PageHero";
 
 export default function LeaderboardPage() {
   const { donations, pledges, totalRaised, loading } = useApp();
@@ -33,8 +34,8 @@ export default function LeaderboardPage() {
     <div style={{ background: "var(--background)", minHeight: "100vh" }}>
 
       {/* Header */}
-      <div style={{ background: "var(--primary)", padding: "4rem 2rem 7rem" }}>
-        <div style={{ maxWidth: "840px", margin: "0 auto" }}>
+      <PageHero image="/leaderboard-hero.jpg">
+        <div style={{ maxWidth: "840px", margin: "0 auto", padding: "4rem 2rem 7rem" }}>
           <Link href="/" style={{ display: "inline-flex", alignItems: "center", gap: "8px", color: "rgba(255,255,255,0.5)", fontWeight: 600, fontSize: "0.85rem", textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: "2.5rem" }}>
             <ArrowLeft size={14} /> Back to Home
           </Link>
@@ -46,7 +47,7 @@ export default function LeaderboardPage() {
             </div>
           </div>
         </div>
-      </div>
+      </PageHero>
 
       <div style={{ maxWidth: "840px", margin: "-3.5rem auto 0", padding: "0 2rem 6rem", position: "relative", zIndex: 10 }}>
 

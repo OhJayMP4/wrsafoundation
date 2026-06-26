@@ -5,6 +5,7 @@ import { ArrowRight, Heart, Shield, Leaf, Users, CalendarCheck, RefreshCcw } fro
 import { useSupporterAuth } from "@/context/SupporterAuthContext";
 import { DEBIT_ORDER_TIERS } from "@/types/debitOrder";
 import FadeIn from "@/components/FadeIn";
+import PageHero from "@/components/PageHero";
 
 export default function SupportMonthlyPage() {
   const { supporter } = useSupporterAuth();
@@ -15,8 +16,8 @@ export default function SupportMonthlyPage() {
     <div style={{ background: "var(--background)", minHeight: "100vh" }}>
 
       {/* Hero */}
-      <div style={{ background: "var(--primary)", color: "white", padding: "5rem 1.5rem 6rem" }}>
-        <div style={{ maxWidth: "860px", margin: "0 auto", textAlign: "center" }}>
+      <PageHero image="/support-monthly-hero.jpg">
+        <div style={{ maxWidth: "860px", margin: "0 auto", textAlign: "center", padding: "5rem 1.5rem 6rem", color: "white" }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "rgba(197,160,89,0.15)", border: "1px solid rgba(197,160,89,0.4)", padding: "0.5rem 1.25rem", borderRadius: "999px", color: "#e8c97a", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "1.5rem" }}>
             <RefreshCcw size={14} /> Monthly Giving
           </div>
@@ -30,7 +31,7 @@ export default function SupportMonthlyPage() {
             {supporter ? "Set Up My Debit Order" : "Become a Monthly Supporter"} <ArrowRight size={18} />
           </Link>
         </div>
-      </div>
+      </PageHero>
 
       {/* Tiers */}
       <div style={{ maxWidth: "var(--container-width)", margin: "0 auto", padding: "5rem 1.5rem" }}>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Shield, Eye, Leaf, Users } from "lucide-react";
 import FadeIn from "@/components/FadeIn";
+import PageHero from "@/components/PageHero";
 
 export default function AboutPage() {
   return (
@@ -29,8 +30,8 @@ export default function AboutPage() {
       `}</style>
 
       {/* Hero */}
-      <div style={{ background: "var(--primary)", color: "white", padding: "5rem 1.25rem 6rem" }}>
-        <div style={{ maxWidth: "860px", margin: "0 auto" }}>
+      <PageHero image="/about-hero.jpg">
+        <div style={{ maxWidth: "860px", margin: "0 auto", padding: "5rem 1.25rem 6rem", color: "white" }}>
           <p style={{ color: "var(--accent)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", fontSize: "0.8rem", marginBottom: "1rem" }}>Who We Are</p>
           <h1 style={{ color: "white", fontSize: "clamp(2rem,5vw,3.5rem)", marginBottom: "1.5rem" }}>
             Protecting Southern Africa's Wildlife for Future Generations
@@ -39,7 +40,7 @@ export default function AboutPage() {
             The WRSA Foundation is a non-profit conservation organisation dedicated to preserving biodiversity across Southern Africa through strategic industry partnership, community engagement, and direct field conservation.
           </p>
         </div>
-      </div>
+      </PageHero>
 
       <div style={{ maxWidth: "860px", margin: "0 auto", padding: "4rem 1.25rem 5rem" }}>
 
